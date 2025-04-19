@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@layer components {
+  .doctor {
+    @apply bg-gray-300 rounded-2xl p-20;
+  }
+}

@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@layer components {
+  .login-bg {
+    background-image: url("/bg/authCover.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}

@@ -8,19 +8,79 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: #2563eb;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    font-family: var(--font-roboto), sans-serif;
+    background-color: var(--color-background);
   }
 }
+@layer utilities {
+  .container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+@layer components {
+  .nav-link {
+    @apply text-gray-600  hover:text-foreground hover:scale-105 font-medium transition-transform duration-200;
+  }
+  .active {
+    @apply text-foreground;
+  }
+  .btn {
+    @apply px-[30px] py-[10px] text-background rounded-md font-medium text-sm transition-transform duration-200 font-bold text-[18px];
+  }
+  .btn-primary {
+    @apply bg-primary hover:bg-blue-700 active:bg-blue-800;
+  }
+  .title {
+    @apply text-foreground text-foreground font-semibold text-[30px] leading-[50px] mb-4;
+  }
+  .subtitle {
+    @apply text-foreground  text-gray-500 text-[18px] leading-[30px] mb-4 max-w-[500px];
+  }
+  .card {
+    @apply bg-gray-50 p-8 rounded-lg shadow-md transition-transform duration-200;
+  }
+  .feature-card {
+    @apply bg-gray-50 p-8 rounded-lg  transition-all duration-500;
+  }
+  .feature-card:hover {
+    @apply bg-primary shadow-2xl;
+  }
+  .feature-card:hover .feature-title {
+    @apply text-white;
+  }
+  .feature-card:hover .feature-text {
+    @apply text-white;
+  }
+  .feature-box {
+    @apply h-20 w-20 flex items-center mb-2 bg-primary justify-center rounded-xl;
+  }
+  .feature-card:hover .feature-box {
+    @apply bg-white;
+  }
+  .feature-icon {
+    @apply h-8 w-8 text-white;
+  }
+  .feature-card:hover .feature-icon {
+    @apply text-primary;
+  }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  .card:hover {
+    @apply scale-105;
+  }
+  .feature-title {
+    @apply text-foreground  font-semibold text-[20px] leading-[30px] my-4;
+  }
+  .feature-text {
+    @apply text-gray-500 text-[16px] leading-[30px] mb-4 max-w-[500px];
+  }
+  .card-title {
+    @apply text-foreground text-center font-semibold text-[20px] leading-[30px] mb-4;
+  }
+  .card-text {
+    @apply text-foreground text-center text-gray-500 text-[16px] leading-[30px] mb-4 max-w-[500px];
+  }
 }
