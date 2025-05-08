@@ -2,6 +2,6 @@
 
 @layer components {
   .doctor {
-    @apply bg-gray-300 rounded-2xl p-20;
+    @apply bg-gray-100 rounded-2xl  p-4 flex flex-col items-center justify-center;
   }
 }

@@ -34,6 +34,18 @@
   .btn-primary {
     @apply bg-primary hover:bg-blue-700 active:bg-blue-800;
   }
+  .btn-outline {
+    @apply border-2 border-primary text-primary hover:bg-primary hover:text-white active:bg-blue-800;
+  }
+  .btn-outline-green {
+    @apply border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white active:bg-green-800 active:border-green-800;
+  }
+  .btn-red {
+    @apply bg-red-500 text-white hover:bg-red-600 active:bg-red-700;
+  }
+  .btn-green {
+    @apply bg-green-500 text-white hover:bg-green-600 active:bg-green-700;
+  }
   .title {
     @apply text-foreground text-foreground font-semibold text-[30px] leading-[50px] mb-4;
   }

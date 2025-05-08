@@ -29,9 +29,35 @@ export async function POST(req) {
 }
 export async function GET(req) {
   await connectDB();
-  const doctors = await Doctor.find({});
-  return new Response(JSON.stringify(doctors), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
+
+  const { searchParams } = new URL(req.url);
+  const category = searchParams.get("category");
+  const search = searchParams.get("search");
+
+  const query = {};
+
+  if (category) {
+    query.specialization = category;
+  }
+
+  if (search) {
+    query.$or = [
+      { firstName: { $regex: search, $options: "i" } },
+      { lastName: { $regex: search, $options: "i" } },
+    ];
+  }
+
+  try {
+    const doctors = await Doctor.find(query);
+    return new Response(JSON.stringify(doctors), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error fetching doctors:", error);
+    return new Response(JSON.stringify({ error: "Failed to fetch doctors" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 }
