@@ -41,7 +41,7 @@ const Header = () => {
         <div className="container h-full">
           <div className="flex items-center justify-between h-full">
             <Link href="/">
-              <img src="./logos/default.png" alt="Logo" className="h-10 " />
+              <img src="/logos/default.png" alt="Logo" className="h-10 " />
             </Link>
             <ul className="flex items-center gap-8 text-background text-[18px] ">
               <li className="nav-link active">

@@ -91,7 +91,6 @@ export default function SpeechToText({ setSelectedCategory }) {
     setApiResponse("");
 
     try {
-      // Replace with your actual backend endpoint
       const response = await fetch("http://localhost:3000/api/symtom", {
         method: "POST",
         headers: {
@@ -115,7 +114,7 @@ export default function SpeechToText({ setSelectedCategory }) {
     }
   };
 
-  console.log("Final Texsdst:", apiResponse);
+  console.log("Final Text:", apiResponse);
 
   return (
     <div className="mt-19">
@@ -163,17 +162,40 @@ export default function SpeechToText({ setSelectedCategory }) {
           <h3 className="font-bold text-blue-800">
             পরামর্শক বিশেষজ্ঞ: {apiResponse.specialization}
           </h3>
-          {apiResponse.doctors.length > 0 ? (
-            <ul className="mt-2 list-disc list-inside text-blue-600">
-              {apiResponse.doctors.map((doc) => (
-                <li key={doc._id}>
-                  {doc.firstName} {doc.lastName} -{" "}
-                  {doc.specialization.join(", ")}
-                </li>
-              ))}
-            </ul>
+
+          {/* Show Possible Diseases */}
+          {apiResponse.possibleDiseases?.length > 0 && (
+            <div className="mt-2">
+              <h4 className="font-semibold text-gray-700 mb-1">
+                সম্ভাব্য রোগসমূহ:
+              </h4>
+              <ul className="list-disc list-inside text-gray-800">
+                {apiResponse.possibleDiseases.map((disease, index) => (
+                  <li key={index}>
+                    {disease.english} - {disease.bengali}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Show Doctors */}
+          {apiResponse.doctors?.length > 0 ? (
+            <div className="mt-3">
+              <h4 className="font-semibold text-gray-700 mb-1">
+                সুপারিশকৃত ডাক্তারগণ:
+              </h4>
+              <ul className="list-disc list-inside text-blue-600">
+                {apiResponse.doctors.map((doc) => (
+                  <li key={doc._id}>
+                    {doc.firstName} {doc.lastName} -{" "}
+                    {doc.specialization.join(", ")}
+                  </li>
+                ))}
+              </ul>
+            </div>
           ) : (
-            <p className="text-red-500">
+            <p className="text-red-500 mt-2">
               এই বিশেষজ্ঞের কোনো ডাক্তার খুঁজে পাওয়া যায়নি।
             </p>
           )}

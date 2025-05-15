@@ -13,64 +13,114 @@ export async function POST(req) {
     console.log("Received symptoms:", symptoms);
 
     const prompt = `
-You are a medical assistant. A patient described their symptoms in Bengali (or English). Based on that, suggest the **one** most likely doctor specialty the patient should consult.
+You are a medical assistant. A patient described their symptoms in Bengali (or English). Your task is to:
+
+1️⃣ Identify the **one most likely doctor's specialty** the patient should consult (e.g., "Cardiology", "Dermatology").
+
+2️⃣ List **2-5 possible diseases or conditions** based on the symptoms.
+
+⚠️ Important:
+- Each disease must include its name in both English and Bengali.
+- Format as **strict JSON** (no extra commentary).
+
+---
 
 Symptoms: ${symptoms}
 
-Respond with only one word: the doctor's specialty. Example: "Cardiology"
+---
+
+✅ Respond in this exact JSON format:
+
+{
+  "specialization": "<doctor_specialty>",
+  "possibleDiseases": [
+    { "english": "<Disease Name in English>", "bengali": "<Disease Name in Bengali>" },
+    { "english": "<Disease Name in English>", "bengali": "<Disease Name in Bengali>" }
+  ]
+}
 `;
 
-    const chatResponse = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer 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",
-        "Content-Type": "application/json",
-        "HTTP-Referer": "http://localhost:3000", // Update for production
-        "X-Title": "Symptom Checker"
-      },
-      body: JSON.stringify({
-        model: "openai/gpt-3.5-turbo",
-        messages: [
-          { role: "system", content: "You are a helpful doctor assistant." },
-          { role: "user", content: prompt }
-        ]
-      })
-    });
+    const chatResponse = await fetch(
+      "https://openrouter.ai/api/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          Authorization:
+            "Bearer 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",
+          "Content-Type": "application/json",
+          "HTTP-Referer": "http://localhost:3000", // Update for production
+          "X-Title": "Symptom Checker",
+        },
+        body: JSON.stringify({
+          model: "openai/gpt-3.5-turbo",
+          messages: [
+            { role: "system", content: "You are a helpful doctor assistant." },
+            { role: "user", content: prompt },
+          ],
+        }),
+      }
+    );
 
     const result = await chatResponse.json();
-    let specialization = result.choices?.[0]?.message?.content?.trim();
+    console.log("Chat result:", result);
 
-    if (!specialization) {
-      throw new Error("No specialization returned from model");
+    let content = result.choices?.[0]?.message?.content?.trim();
+
+    if (!content) {
+      throw new Error("No response from model");
     }
 
-    // Capitalize properly
-    specialization = specialization.charAt(0).toUpperCase() + specialization.slice(1).toLowerCase();
+    // Parse the JSON returned by the model
+    let parsed;
+    try {
+      parsed = JSON.parse(content);
+    } catch (err) {
+      console.error("Failed to parse JSON from AI:", content);
+      throw new Error("Failed to parse AI response");
+    }
+
+    let { specialization, possibleDiseases } = parsed;
+
+    if (!specialization || !Array.isArray(possibleDiseases)) {
+      throw new Error("Invalid AI response format");
+    }
+
+    // Capitalize specialization properly
+    specialization =
+      specialization.charAt(0).toUpperCase() +
+      specialization.slice(1).toLowerCase();
     console.log("Specialization predicted:", specialization);
+    console.log("Possible diseases:", possibleDiseases);
 
     // Find doctors matching that specialization
     const doctors = await Doctor.find({
-      specialization: { $in: [specialization] }
-    }).select("-password -__v"); // exclude sensitive fields
+      specialization: { $in: [specialization] },
+    }).select("-password -__v");
 
     console.log(`Found ${doctors.length} doctor(s)`);
 
-    return new Response(JSON.stringify({
-      specialization,
-      doctors
-    }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" }
-    });
-
+    return new Response(
+      JSON.stringify({
+        specialization,
+        possibleDiseases,
+        doctors,
+      }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   } catch (error) {
     console.error("Error in POST /api/symptom:", error);
-    return new Response(JSON.stringify({
-      message: "Server error",
-      error: error.message
-    }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" }
-    });
+    return new Response(
+      JSON.stringify({
+        message: "Server error",
+        error: error.message,
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   }
 }
