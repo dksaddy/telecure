@@ -1,13 +1,10 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/app/lib/mongodb";
 import Appointment from "@/app/models/Appointment";
-import { writeFile } from "fs/promises";
-import path from "path";
-import { v4 as uuidv4 } from "uuid";
-import fs from "fs";
-import mongoose from "mongoose"; // Import mongoose for ObjectId
+import mongoose from "mongoose";
 import axios from "axios";
-import qs from "querystring"; // Add this for form encoding
+import qs from "querystring";
+import { uploadFile } from "@/app/utils/uploadFile";
 
 export async function POST(req) {
   try {
@@ -15,17 +12,12 @@ export async function POST(req) {
 
     const form = await req.formData();
 
-    const uploadDir = path.join(process.cwd(), "public/uploads");
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-
     const appointmentData = {};
     for (const [key, value] of form.entries()) {
       if (key === "interval") {
         appointmentData.interval = JSON.parse(value);
       } else if (key === "files") {
-        // skip here, handled below
+        // handled below
       } else {
         appointmentData[key] = value;
       }
@@ -73,14 +65,14 @@ export async function POST(req) {
         );
       }
 
-      const filename = `${uuidv4()}-${file.name}`;
-      const uploadPath = path.join(uploadDir, filename);
+      const fileName = `${Date.now()}-${file.name}`;
+      const fileObj = new File([buffer], fileName, { type: file.type });
 
-      await writeFile(uploadPath, buffer);
+      const url = await uploadFile(fileObj, "patient-files");
 
       fileMetadataArray.push({
         name: file.name,
-        url: `/uploads/${filename}`,
+        url,
         size: buffer.length,
       });
     }
@@ -97,7 +89,7 @@ export async function POST(req) {
       currency: "BDT",
       tran_id: transactionId.toString(),
       success_url: "http://localhost:3000/api/payment/success",
-      fail_url: "http://localhost:3000/payment/fail",
+      fail_url: "http://localhost:3000/api/payment/fail",
       cancel_url: "https://dummy.cancel",
       shipping_method: "NO",
       product_name: "Appointment",
@@ -114,7 +106,7 @@ export async function POST(req) {
 
     const response = await axios.post(
       "https://sandbox.sslcommerz.com/gwprocess/v4/api.php",
-      qs.stringify(data), // 🔥 Convert to URL-encoded form
+      qs.stringify(data),
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
