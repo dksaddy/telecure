@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import Input from "@mui/material/Input";
 
 const page = () => {
   return (
@@ -21,6 +23,7 @@ const page = () => {
           <p className="px-5 py-3 bg-blue-200 text-primary text-lg text-center">
             Cardiology
           </p>
+          <Input></Input>
         </div>
       </div>
     </div>

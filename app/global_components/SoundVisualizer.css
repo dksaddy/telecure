@@ -1,0 +1,47 @@
+@keyframes quiet {
+  25% {
+    transform: scaleY(0.6);
+  }
+  50% {
+    transform: scaleY(0.4);
+  }
+  75% {
+    transform: scaleY(0.8);
+  }
+}
+
+@keyframes normal {
+  25% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.4);
+  }
+  75% {
+    transform: scaleY(0.6);
+  }
+}
+
+@keyframes loud {
+  25% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.4);
+  }
+  75% {
+    transform: scaleY(1.2);
+  }
+}
+
+.animate-quiet {
+  animation: quiet 1.2s ease-in-out infinite;
+}
+
+.animate-normal {
+  animation: normal 1.2s ease-in-out infinite;
+}
+
+.animate-loud {
+  animation: loud 1.2s ease-in-out infinite;
+}
