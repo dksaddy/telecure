@@ -1,6 +1,8 @@
 import React from "react";
+import Link from "next/link";
 import { Star } from "lucide-react";
 const Doctor = ({
+  _id,
   firstName,
   lastName,
   ratings,
@@ -38,11 +40,13 @@ const Doctor = ({
             {spec}
           </p>
         ))}
-      </div>
-
-      <button className="btn btn-outline-green mt-3 w-full">
+      </div>{" "}
+      <Link
+        href={`find/${_id}}`}
+        className="btn btn-outline-green mt-10 w-full block"
+      >
         Book Appinmtment
-      </button>
+      </Link>
     </div>
   );
 };

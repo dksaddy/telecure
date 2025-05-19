@@ -1,6 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { IconButton, Button } from "@mui/material";
+import { Mic, X, Search } from "lucide-react";
+import Backdrop from "@mui/material/Backdrop";
+import SoundVisualizer from "@/app/global_components/SoundVisualizer";
 
 export default function SpeechToText({ setSelectedCategory }) {
   const [finalText, setFinalText] = useState("");
@@ -117,90 +121,118 @@ export default function SpeechToText({ setSelectedCategory }) {
   console.log("Final Text:", apiResponse);
 
   return (
-    <div className="mt-19">
-      <h2 className="text-xl font-bold mb-4">Symptom Checker</h2>
+    <div className="mt-10">
+      <h2 className="text-2xl text-gray-500 mb-4">Symptom Checker</h2>
 
-      <div className="flex gap-2 mb-4">
-        <button
-          onClick={toggleListening}
-          className={`px-4 py-2 rounded text-white flex-1 ${
-            isListening
-              ? "bg-red-600 hover:bg-red-700"
-              : "bg-green-600 hover:bg-green-700"
-          }`}
-        >
-          {isListening ? "শোনা বন্ধ করুন" : "শুরু করুন"}
-        </button>
+      <div className="grid grid-cols-8 gap-4 mb-4">
+        <Backdrop open={isListening} className="z-50">
+          <div className="flex items-center p-10 bg-white flex-col justify-center rounded-xl">
+            <SoundVisualizer></SoundVisualizer>
 
-        <button
-          onClick={handleFindDoctor}
-          disabled={isLoading}
-          className="px-4 py-2 rounded text-white bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 flex-1"
-        >
-          {isLoading ? "অপেক্ষা করুন..." : "ডাক্তার খুঁজুন"}
-        </button>
-      </div>
-
-      <div className="mt-4">
-        <label className="block text-gray-700 font-bold mb-2">আপনার বলা:</label>
-        <textarea
-          value={finalText + interimTranscript}
-          onChange={handleTextChange}
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="এখনো কিছু বলা হয়নি"
-          rows={4}
-        />
-        {isListening && interimTranscript && (
-          <p className="text-gray-500 mt-1">
-            লাইভ ট্রান্সক্রিপশন: {interimTranscript}
-          </p>
-        )}
-      </div>
-
-      {apiResponse && (
-        <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-          <h3 className="font-bold text-blue-800">
-            পরামর্শক বিশেষজ্ঞ: {apiResponse.specialization}
-          </h3>
-
-          {/* Show Possible Diseases */}
-          {apiResponse.possibleDiseases?.length > 0 && (
-            <div className="mt-2">
-              <h4 className="font-semibold text-gray-700 mb-1">
-                সম্ভাব্য রোগসমূহ:
-              </h4>
-              <ul className="list-disc list-inside text-gray-800">
-                {apiResponse.possibleDiseases.map((disease, index) => (
-                  <li key={index}>
-                    {disease.english} - {disease.bengali}
-                  </li>
-                ))}
-              </ul>
+            <h1 className="text-4xl mt-5 text-black ">Listening...</h1>
+            <div className="mt-5">
+              <Button
+                variant="contained"
+                color="error"
+                className="w-10 h-15 "
+                onClick={toggleListening}
+                sx={{ borderRadius: "50%" }}
+              >
+                <X size={24} />
+              </Button>
             </div>
-          )}
-
-          {/* Show Doctors */}
-          {apiResponse.doctors?.length > 0 ? (
-            <div className="mt-3">
-              <h4 className="font-semibold text-gray-700 mb-1">
-                সুপারিশকৃত ডাক্তারগণ:
-              </h4>
-              <ul className="list-disc list-inside text-blue-600">
-                {apiResponse.doctors.map((doc) => (
-                  <li key={doc._id}>
-                    {doc.firstName} {doc.lastName} -{" "}
-                    {doc.specialization.join(", ")}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : (
-            <p className="text-red-500 mt-2">
-              এই বিশেষজ্ঞের কোনো ডাক্তার খুঁজে পাওয়া যায়নি।
+          </div>
+        </Backdrop>
+        <div className="col-span-2">
+          <textarea
+            value={finalText + interimTranscript}
+            onChange={handleTextChange}
+            className="w-full  px-3 py-2 border  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Nothin has said yet"
+            rows={4}
+          />
+        </div>
+        <div className="w-full p-5 rounded-[10px] flex items-center flex-col justify-center  bg-blue-100">
+          <IconButton size="large" onClick={toggleListening}>
+            <Mic size={36} />
+          </IconButton>
+        </div>
+        <div className="bg-primary rounded-[10px] flex items-center justify-center">
+          {/* <button
+            onClick={handleFindDoctor}
+            disabled={isLoading}
+            className="px-4 py-2 rounded text-white bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 flex-1"
+          >
+            {isLoading ? "Loading..." : "Find Doctor"}
+          </button> */}
+          <IconButton
+            onClick={handleFindDoctor}
+            disabled={isLoading}
+            sx={{
+              color: "white",
+              "&:hover": {
+                backgroundColor: "rgba(255, 255, 255, 0.1)", // optional hover effect
+              },
+              "& .MuiTouchRipple-root .MuiTouchRipple-rippleVisible": {
+                color: "white",
+              },
+            }}
+          >
+            <Search size={36} color="white" />
+          </IconButton>
+        </div>
+        {/* <div>
+          {isListening && interimTranscript && (
+            <p className="text-gray-500 mt-1">
+              লাইভ ট্রান্সক্রিপশন: {interimTranscript}
             </p>
           )}
-        </div>
-      )}
+        </div> */}
+        {apiResponse && (
+          <div className=" p-3 bg-blue-50 col-span-4 h-full rounded-lg">
+            <h3 className="font-bold text-blue-800">
+              পরামর্শক বিশেষজ্ঞ: {apiResponse.specialization}
+            </h3>
+
+            {/* Show Possible Diseases */}
+            {apiResponse.possibleDiseases?.length > 0 && (
+              <div className="mt-2">
+                <h4 className="font-semibold text-gray-700 mb-1">
+                  সম্ভাব্য রোগসমূহ:
+                </h4>
+                <ul className="list-disc list-inside text-gray-800">
+                  {apiResponse.possibleDiseases.map((disease, index) => (
+                    <li key={index}>
+                      {disease.english} - {disease.bengali}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Show Doctors */}
+            {apiResponse.doctors?.length > 0 ? (
+              <div className="mt-3">
+                <h4 className="font-semibold text-gray-700 mb-1">
+                  সুপারিশকৃত ডাক্তারগণ:
+                </h4>
+                <ul className="list-disc list-inside text-blue-600">
+                  {apiResponse.doctors.map((doc) => (
+                    <li key={doc._id}>
+                      {doc.firstName} {doc.lastName} -{" "}
+                      {doc.specialization.join(", ")}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <p className="text-red-500 mt-2">
+                এই বিশেষজ্ঞের কোনো ডাক্তার খুঁজে পাওয়া যায়নি।
+              </p>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
