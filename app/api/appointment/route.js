@@ -24,6 +24,7 @@ export async function POST(req) {
     }
 
     const conflict = await Appointment.findOne({
+      docId: appointmentData.docId,
       date: appointmentData.date,
       timeRange: appointmentData.timeRange,
       "interval.start": appointmentData.interval.start,
@@ -80,6 +81,11 @@ export async function POST(req) {
     appointmentData.files = fileMetadataArray;
     const transactionId = new mongoose.Types.ObjectId();
     appointmentData.transactionId = transactionId;
+
+    // Generate Jitsi call link using transactionId
+    const jitsiRoomName = `telecure-${transactionId.toString()}`;
+    appointmentData.callLink = jitsiRoomName;
+
     const newAppointment = await Appointment.create(appointmentData);
 
     const data = {

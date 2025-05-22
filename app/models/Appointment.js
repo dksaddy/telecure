@@ -30,6 +30,8 @@ const appointmentSchema = new mongoose.Schema({
   paymentStatus: { type: Boolean, default: false },
 
   transactionId: { type: mongoose.Schema.Types.ObjectId, ref: "Transaction", default: null },
+
+  callLink: { type: String, default: null }
 }, {
   timestamps: true,
 });
