@@ -12,7 +12,7 @@ import PatientDetails from "./components/patientDetails";
 import AvailableInterval from "./components/availableInterval";
 
 export default function BookAppointment() {
-  const user = useAuth();
+  const {user} = useAuth();
   const searchParams = useSearchParams();
   const docId = searchParams.get("mydoc");
 
@@ -131,9 +131,9 @@ export default function BookAppointment() {
 
   Object.assign(appointmentDetails, {
     doctorId: docId,
-    patientId: user.user.id,
-    patientName: "Saddy",
-    patientDOB: user.user.dateOfBirth,
+    patientId: user.id,
+    patientName: user.name,
+    patientDOB: user.dateOfBirth,
   });
 
   return (

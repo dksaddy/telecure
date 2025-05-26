@@ -17,7 +17,7 @@ export async function loginUser(currentState, formdata) {
   }
   const userData = {
     id: existingUser._id.toString(),
-    name: existingUser.name,
+    name: existingUser.firstName + " " + existingUser.lastName,
     email: existingUser.email,
     role: existingUser.role,
     dateOfBirth: dayjs(existingUser.dateOfBirth).format("D MMMM YYYY"),
