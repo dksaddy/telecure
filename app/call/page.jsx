@@ -2,14 +2,22 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useAuth } from "@/app/context.js/AuthContext";
+import Modal from './components/Modal.jsx';
+import CheckPrescription from './components/CheckPrescription';
+import AddPrescription from './components/AddPrescription';
 
 export default function CallPage() {
-  const user = useAuth();
+  const { user } = useAuth();
   const jitsiRef = useRef(null);
   const searchParams = useSearchParams();
   const router = useRouter();
   const room = searchParams.get('room');
   const [apiLoaded, setApiLoaded] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [prescriptionData, setPrescriptionData] = useState(null);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   // Load the Jitsi Meet API script
   useEffect(() => {
@@ -36,7 +44,7 @@ export default function CallPage() {
       width: '100%',
       height: 600,
       userInfo: {
-        displayName: user.user.role,
+        displayName: user.name,
       },
       configOverwrite: {
         startWithAudioMuted: true,
@@ -47,31 +55,57 @@ export default function CallPage() {
       },
     });
 
-    api.addEventListener('readyToClose', async () => {
-  try {
-    await fetch('/api/appointment/status', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ callLink: room }), // room === callLink
-    });
-  } catch (err) {
-    console.error('Error updating appointment status:', err);
-  } finally {
-    router.push('/');
-  }
-});
-
-
     return () => api.dispose();
   }, [apiLoaded, room]);
+
+
+  useEffect(() => {
+    if (!room) return;
+
+    const fetchPrescriptionData = async () => {
+      try {
+        const res = await fetch('/api/prescription/initial', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ callLink: room })
+        });
+
+        const data = await res.json();
+        setPrescriptionData(data);
+      } catch (err) {
+        console.error('Failed to fetch prescription:', err);
+      }
+    };
+
+    fetchPrescriptionData();
+  }, [room]);
+
+
+console.log('Prescription Data:', prescriptionData);
 
   if (!room) {
     return <div className="text-center text-red-500 mt-10">Missing room parameter.</div>;
   }
 
   return (
-    <div className="p-4 mt-20">
+    <div className="p-4 mt-17">
       <div ref={jitsiRef} className="w-full rounded-xl shadow-lg overflow-hidden" />
+
+      <button
+        className='fixed top-25 left-5 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-600 transition-colors'
+        onClick={openModal}
+      >
+        {user?.role === "patient" ? "Check Prescription" : "Add Prescription"}
+      </button>
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        {user?.role === "patient" ? (
+          <CheckPrescription data={prescriptionData}/>
+        ) : (
+          <AddPrescription data={prescriptionData}/>
+        )}
+      </Modal>
+
     </div>
   );
 }
