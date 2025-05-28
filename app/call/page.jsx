@@ -5,6 +5,7 @@ import { useAuth } from "@/app/context.js/AuthContext";
 import Modal from './components/Modal.jsx';
 import CheckPrescription from './components/CheckPrescription';
 import AddPrescription from './components/AddPrescription';
+import LoadingModal from '../global_components/LoadingModal';
 
 export default function CallPage() {
   const { user } = useAuth();
@@ -44,15 +45,29 @@ export default function CallPage() {
       width: '100%',
       height: 600,
       userInfo: {
-        displayName: user.name,
+        displayName: user?.name,
       },
       configOverwrite: {
         startWithAudioMuted: true,
-        startWithVideoMuted: false,
+        startWithVideoMuted: true,
       },
       interfaceConfigOverwrite: {
         SHOW_JITSI_WATERMARK: false,
       },
+    });
+
+    api.addEventListener('readyToClose', async () => {
+      try {
+        await fetch('/api/appointment/status', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ callLink: room }),
+        });
+      } catch (err) {
+        console.error('Error updating appointment status:', err);
+      } finally {
+        router.push('/');
+      }
     });
 
     return () => api.dispose();
@@ -81,10 +96,16 @@ export default function CallPage() {
   }, [room]);
 
 
-console.log('Prescription Data:', prescriptionData);
+  console.log('Prescription Data:', prescriptionData);
 
+  if (!apiLoaded) {
+    return <LoadingModal />;
+  }
   if (!room) {
     return <div className="text-center text-red-500 mt-10">Missing room parameter.</div>;
+  }
+  if (!user) {
+    return <div className="text-center text-red-500 mt-50">User not authenticated.</div>;
   }
 
   return (
@@ -100,9 +121,9 @@ console.log('Prescription Data:', prescriptionData);
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {user?.role === "patient" ? (
-          <CheckPrescription data={prescriptionData}/>
+          <CheckPrescription data={prescriptionData} />
         ) : (
-          <AddPrescription data={prescriptionData}/>
+          <AddPrescription data={prescriptionData} />
         )}
       </Modal>
 
