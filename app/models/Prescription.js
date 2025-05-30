@@ -4,27 +4,22 @@ const prescriptionSchema = new mongoose.Schema({
   appointment_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Appointment',
-    required: true
+    required: true,
   },
   medication: [
     {
       name: { type: String, required: true },
-      frequency: { type: String },
+      frequency: [{ type: String }],
       instruction: { type: String },
       duration: { type: String },
-    }
+      fullData: { type: mongoose.Schema.Types.Mixed }, // <-- Add fullData here
+    },
   ],
-  complaints: [
-    { type: String }
-  ],
-  investigation: [
-    { type: String }
-  ],
-  diagnosis: [
-    { type: String }
-  ]
+  complaints: [{ type: String }],
+  investigation: [{ type: String }],
+  diagnosis: [{ type: String }],
 }, {
-  timestamps: true
+  timestamps: true,
 });
 
 const Prescription = mongoose.models.Prescription || mongoose.model('Prescription', prescriptionSchema);
