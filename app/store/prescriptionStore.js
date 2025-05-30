@@ -4,7 +4,14 @@ const usePrescriptionStore = create((set) => ({
   complaintsText: '',
   investigationText: '',
   diagnosisText: '',
-  medications: [{ name: '', frequency: '', instruction: '', duration: '' }],
+  medications: [{
+    name: '',
+    frequency: [],
+    customFrequency: '',
+    instruction: '',
+    duration: '',
+    fullData: null, // stores full medicine details after selection
+  }],
 
   setComplaintsText: (text) => set({ complaintsText: text }),
   setInvestigationText: (text) => set({ investigationText: text }),
@@ -13,7 +20,10 @@ const usePrescriptionStore = create((set) => ({
   setMedications: (meds) => set({ medications: meds }),
   addMedication: () =>
     set((state) => ({
-      medications: [...state.medications, { name: '', frequency: '', instruction: '', duration: '' }]
+      medications: [
+        ...state.medications,
+        { name: '', frequency: [], customFrequency: '', instruction: '', duration: '', fullData: null }
+      ]
     })),
   removeMedication: (index) =>
     set((state) => ({
@@ -24,7 +34,14 @@ const usePrescriptionStore = create((set) => ({
       complaintsText: '',
       investigationText: '',
       diagnosisText: '',
-      medications: [{ name: '', frequency: '', instruction: '', duration: '' }]
+      medications: [{
+        name: '',
+        frequency: [],
+        customFrequency: '',
+        instruction: '',
+        duration: '',
+        fullData: null
+      }]
     }),
 }));
 
