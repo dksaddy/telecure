@@ -165,12 +165,11 @@ export default function AddPrescription({ data }) {
           <MetaDetails appointment={appointment} />
         </div>
       </div>
-
       <PatientShortDetails patient={appointment} />
 
       <form onSubmit={handleSubmit} className="space-y-6 mt-2">
         <div className="flex flex-col md:flex-row gap-6">
-          <div className="md:w-1/3 space-y-4 shadow-md p-4 bg-white rounded-md border border-gray-200">
+          <div className="md:w-1/3 space-y-4 p-4 bg-white rounded-md border border-gray-400">
             {[{ label: 'Complaints', value: complaintsText, setValue: setComplaintsText },
             { label: 'Investigation', value: investigationText, setValue: setInvestigationText },
             { label: 'Diagnosis', value: diagnosisText, setValue: setDiagnosisText }].map(({ label, value, setValue }) => (
@@ -187,8 +186,8 @@ export default function AddPrescription({ data }) {
             ))}
           </div>
 
-          <div className="md:w-2/3 space-y-4">
-            <h2 className="text-lg font-semibold text-gray-800">Medications</h2>
+          <div className="md:w-2/3 space-y-2">
+            <h2 className="text-lg font-semibold text-gray-700">Medications</h2>
             {medications.map((med, index) => (
               <div
                 key={index}
@@ -226,8 +225,6 @@ export default function AddPrescription({ data }) {
                       <p><strong>Dosage Form: </strong> {med.fullData.dosageForm || 'N/A'}</p>
                     </div>
                   )}
-
-
 
 
                   <label className="text-sm font-medium text-gray-600 mb-1">Frequency</label>
