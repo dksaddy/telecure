@@ -21,6 +21,7 @@ export default function AddPrescription({ data }) {
 
   const [searchResults, setSearchResults] = useState({});
   const [focusedIndex, setFocusedIndex] = useState(null); // Track focus to manage dropdown visibility
+  const [medicationName, setMedicationName] = useState([]);
 
   const handleMedicationChange = (index, field, value) => {
     const updated = [...medications];
@@ -29,46 +30,50 @@ export default function AddPrescription({ data }) {
     if (field === 'name') {
       updated[index].fullData = null;
       setSearchResults((prev) => ({ ...prev, [index]: [] }));
+
+      const names = [...medicationName];
+      names[index] = value;
+      setMedicationName(names);
     }
 
     setMedications(updated);
   };
 
   useEffect(() => {
-    medications.forEach((med, index) => {
-      const name = med.name?.trim();
-      if (name && name.length > 0) {
-        (async () => {
-          try {
-            const res = await fetch('/api/prescription/medicine/search', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ searchTerm: name }),
-            });
+  medicationName.forEach((name, index) => {
+    const trimmed = name?.trim();
+    if (trimmed && trimmed.length > 0) {
+      (async () => {
+        try {
+          const res = await fetch('/api/prescription/medicine/search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ searchTerm: trimmed }),
+          });
 
-            if (!res.ok) {
-              setSearchResults((prev) => ({ ...prev, [index]: [] }));
-              return;
-            }
-
-            const result = await res.json();
-            const newResults = Array.isArray(result) ? result.slice(0, 10) : [];
-
-            setSearchResults((prev) => {
-              const prevResults = prev[index] || [];
-              if (JSON.stringify(prevResults) === JSON.stringify(newResults)) return prev;
-              return { ...prev, [index]: newResults };
-            });
-          } catch (err) {
-            console.error('Search error:', err);
+          if (!res.ok) {
             setSearchResults((prev) => ({ ...prev, [index]: [] }));
+            return;
           }
-        })();
-      } else {
-        setSearchResults((prev) => ({ ...prev, [index]: [] }));
-      }
-    });
-  }, [medications]);
+
+          const result = await res.json();
+          const newResults = Array.isArray(result) ? result : [];
+
+          setSearchResults((prev) => {
+            const prevResults = prev[index] || [];
+            if (JSON.stringify(prevResults) === JSON.stringify(newResults)) return prev;
+            return { ...prev, [index]: newResults };
+          });
+        } catch (err) {
+          console.error('Search error:', err);
+          setSearchResults((prev) => ({ ...prev, [index]: [] }));
+        }
+      })();
+    } else {
+      setSearchResults((prev) => ({ ...prev, [index]: [] }));
+    }
+  });
+}, [medicationName]);
 
   const selectMedication = async (index, selected) => {
     const updated = [...medications];
@@ -156,7 +161,7 @@ export default function AddPrescription({ data }) {
         <div className="w-1/2">
           <DoctorShortDetails doctor={doctor} />
         </div>
-        <div className="w-1/2 text-right mr-10">
+        <div className="w-1/2 text-right">
           <MetaDetails appointment={appointment} />
         </div>
       </div>
@@ -197,7 +202,6 @@ export default function AddPrescription({ data }) {
                       value={med.name}
                       onChange={(e) => handleMedicationChange(index, 'name', e.target.value)}
                       onFocus={() => setFocusedIndex(index)}
-                      onBlur={() => setTimeout(() => setFocusedIndex(null), 100)}
                       className="border border-gray-300 rounded-md p-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
                     {searchResults[index]?.length > 0 && focusedIndex === index && (
@@ -216,7 +220,7 @@ export default function AddPrescription({ data }) {
                   </div>
 
                   {med.fullData && (
-                    <div className="flex flex-row gap-4 mb-2 text-sm text-gray-600">
+                    <div className="flex flex-row gap-4 text-sm text-gray-600">
                       <p><strong>Generic: </strong> {med.fullData.generic || 'N/A'}</p>
                       <p><strong>Strength: </strong>{med.fullData.strength || 'N/A'}</p>
                       <p><strong>Dosage Form: </strong> {med.fullData.dosageForm || 'N/A'}</p>
