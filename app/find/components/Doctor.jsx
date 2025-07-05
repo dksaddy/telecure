@@ -42,7 +42,7 @@ const Doctor = ({
         ))}
       </div>{" "}
       <Link
-        href={`find/${_id}}`}
+        href={`/appointment?mydoc=${_id}`}
         className="btn btn-outline-green mt-10 w-full block"
       >
         Book Appinmtment

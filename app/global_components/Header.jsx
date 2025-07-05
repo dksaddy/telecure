@@ -47,9 +47,12 @@ const Header = () => {
               <li className="nav-link active">
                 <Link href="/">Home</Link>
               </li>
-              <li className="nav-link">
-                <Link href="/find">Find a doctor</Link>
-              </li>
+              {user?.role !== "doctor" && (
+                <li className="nav-link">
+                  <Link href="/find">Find a doctor</Link>
+                </li>
+              )}
+
               <li className="nav-link">
                 <Link href="/find">About Us</Link>
               </li>
