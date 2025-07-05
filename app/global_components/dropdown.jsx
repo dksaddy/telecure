@@ -22,7 +22,7 @@ const Dropdown = ({ state, change, logout }) => {
     >
       <ul className="flex flex-col gap-0 text-foreground text-[16px] text-center">
         <li className="hover:bg-gray-500 rounded-t-lg py-3 pt-4.5 transition-all cursor-pointer">
-          <Link href="/account">My Account</Link>
+          <Link href="/dashboard">Dashboard</Link>
         </li>
         <li className="hover:bg-gray-500 py-3 transition-all cursor-pointer">
           <Link href="/account">Settings</Link>
