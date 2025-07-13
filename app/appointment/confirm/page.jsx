@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useFormStore } from "../../store/formstore";
 import { useRouter } from "next/navigation";
+import SubmittedFiles from "./components/SubmittedFiles";
 
 export default function Confirm() {
   const formData = useFormStore((state) => state.formData);
@@ -50,10 +51,47 @@ export default function Confirm() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 text-center">
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md space-y-6 mt-30">
+      {/* 1. Patient Details */}
+      <div>
+        <h2 className="text-xl font-semibold text-purple-700 mb-3">Patient Details</h2>
+        <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
+          <p><span className="font-medium">Name:</span> {formData.name}</p>
+          <p><span className="font-medium">Phone:</span> {formData.phone}</p>
+          <p><span className="font-medium">Age:</span> {formData.age}</p>
+          <p><span className="font-medium">Gender:</span> {formData.gender}</p>
+          <p><span className="font-medium">Weight:</span> {formData.weight} kg</p>
+          <p><span className="font-medium">Height:</span> {formData.heightFeet} ft {formData.heightInch} in</p>
+        </div>
+      </div>
 
-      <h1 className="text-2xl font-bold mb-4">Confirm Your Appointment</h1>
-      <p className="text-lg mb-4">Click below to submit your appointment.</p>
+      {/* 2. Appointment Details */}
+      <div>
+        <h2 className="text-xl font-semibold text-purple-700 mb-3">Appointment Details</h2>
+        <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
+          <p><span className="font-medium">Date:</span> {formData.date}</p>
+          <p><span className="font-medium">Time Slot:</span> {formData.interval.start} - {formData.interval.end}</p>
+          <p><span className="font-medium">Available Range:</span> {formData.timeRange}</p>
+          <p><span className="font-medium">Doctor ID:</span> {formData.docId}</p>
+          <p><span className="font-medium">Status:</span> {formData.status}</p>
+          <p><span className="font-medium">Payment:</span> {formData.paymentStatus ? "Paid" : "Pending"}</p>
+        </div>
+      </div>
+
+      {/* 4. Billing Info */}
+      <div>
+        <h2 className="text-xl font-semibold text-purple-700 mb-3">Billing</h2>
+        <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
+          <p><span className="font-medium">Appointment Fee:</span> ৳500</p>
+          <p><span className="font-medium">Discount:</span> ৳0</p>
+          <p><span className="font-medium">Total Payable:</span> ৳500</p>
+          <p><span className="font-medium">Transaction ID:</span> {formData.transactionId || "Not available"}</p>
+        </div>
+      </div>
+
+
+      <SubmittedFiles files={formData.files} />
+
       <button
         onClick={handleSubmit}
         disabled={loading}
@@ -62,12 +100,8 @@ export default function Confirm() {
         {loading ? "Submitting..." : "Confirm Appointment"}
       </button>
 
+      
     </div>
   )
 
 }
-
-
-
-
-
