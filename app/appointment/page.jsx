@@ -12,7 +12,7 @@ import PatientDetails from "./components/patientDetails";
 import AvailableInterval from "./components/availableInterval";
 
 export default function BookAppointment() {
-  const {user} = useAuth();
+  const { user } = useAuth();
   const searchParams = useSearchParams();
   const docId = searchParams.get("mydoc");
 
@@ -139,7 +139,7 @@ export default function BookAppointment() {
   return (
     <div className="grid grid-cols-12 gap-1 px-20 py-8 pt-[80px]">
 
-      <div className="col-span-12 md:col-span-4 p-2">
+      <div className="col-span-12 md:col-span-4 p-2 rounded-lg shadow-md">
         <DocDetails doctor={doctor} />
       </div>
 
@@ -166,12 +166,11 @@ export default function BookAppointment() {
           />
         )}
 
-        <div>
-          <PatientDetails
-            appointmentDetails={appointmentDetails}
-            selectedInterval={selectedInterval}
-          />
-        </div>
+
+        <PatientDetails
+          appointmentDetails={appointmentDetails}
+          selectedInterval={selectedInterval}
+        />
 
       </div>
     </div>

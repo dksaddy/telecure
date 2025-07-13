@@ -71,24 +71,3 @@ export default function Confirm() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
