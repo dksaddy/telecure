@@ -7,73 +7,73 @@ import { useFormStore } from "@/app/store/formstore";
 import { useRouter } from "next/navigation";
 
 export default function PatienDetails({ appointmentDetails, selectedInterval }) {
-    const setFormDataGlobal = useFormStore((state) => state.setFormData);
-    const router = useRouter();
+  const setFormDataGlobal = useFormStore((state) => state.setFormData);
+  const router = useRouter();
 
-    const [formData, setFormData] = useState({
-        name: appointmentDetails?.patientName || "",
-        phone: "",
-        age: claculateAge(appointmentDetails?.patientDOB),
-        gender: "",
-        weight: "",
-        heightFeet: "",
-        heightInch: "",
-        files: [],
-        date: "",
-        interval: "",
-        timeRange: "",
-        docId: appointmentDetails?.doctorId || "",
-        patientId: appointmentDetails?.patientId || "",
-        status: "pending",
-        paymentStatus: false,
-        docDetails: appointmentDetails?.docDetails || {},
-    });
+  const [formData, setFormData] = useState({
+    name: appointmentDetails?.patientName || "",
+    phone: "",
+    age: claculateAge(appointmentDetails?.patientDOB),
+    gender: "",
+    weight: "",
+    heightFeet: "",
+    heightInch: "",
+    files: [],
+    date: "",
+    interval: "",
+    timeRange: "",
+    docId: appointmentDetails?.doctorId || "",
+    patientId: appointmentDetails?.patientId || "",
+    status: "pending",
+    paymentStatus: false,
+    docDetails: appointmentDetails?.docDetails || {},
+  });
 
-    const [fileError, setFileError] = useState("");
+  const [fileError, setFileError] = useState("");
 
-    useEffect(() => {
-        if (appointmentDetails) {
-            setFormData((prev) => ({
-                ...prev,
-                date: appointmentDetails.date || prev.date,
-                interval: appointmentDetails.interval || prev.interval,
-                timeRange: appointmentDetails.timeRange || prev.timeRange,
-            }));
-        }
-    }, [appointmentDetails]);
+  useEffect(() => {
+    if (appointmentDetails) {
+      setFormData((prev) => ({
+        ...prev,
+        date: appointmentDetails.date || prev.date,
+        interval: appointmentDetails.interval || prev.interval,
+        timeRange: appointmentDetails.timeRange || prev.timeRange,
+      }));
+    }
+  }, [appointmentDetails]);
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-    const handleFileChange = (e) => {
-        const files = Array.from(e.target.files);
-        const totalSize = files.reduce((sum, file) => sum + file.size, 0);
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    const totalSize = files.reduce((sum, file) => sum + file.size, 0);
 
-        if (totalSize > 2 * 1024 * 1024) {
-            setFileError("Total file size must not exceed 2MB.");
-            return;
-        }
+    if (totalSize > 2 * 1024 * 1024) {
+      setFileError("Total file size must not exceed 2MB.");
+      return;
+    }
 
-        setFileError("");
-        setFormData((prev) => ({ ...prev, files }));
-    };
+    setFileError("");
+    setFormData((prev) => ({ ...prev, files }));
+  };
 
-    const removeFile = (index) => {
-        const updatedFiles = formData.files.filter((_, i) => i !== index);
-        setFormData((prev) => ({ ...prev, files: updatedFiles }));
-    };
+  const removeFile = (index) => {
+    const updatedFiles = formData.files.filter((_, i) => i !== index);
+    setFormData((prev) => ({ ...prev, files: updatedFiles }));
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setFormDataGlobal(formData);
-        router.push("/appointment/confirm");
-        console.log("Submitting data:", formData);
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setFormDataGlobal(formData);
+    router.push("/appointment/confirm");
+    console.log("Submitting data:", formData);
+  };
 
-    return (
-        <>
+  return (
+    <>
       <h2 className="text-lg sm:text-xl font-bold text-blue-700 mb-2">Patient Information</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -83,11 +83,19 @@ export default function PatienDetails({ appointmentDetails, selectedInterval }) 
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
           <div className="flex flex-col">
-            <label className="mb-2 font-semibold">Gender</label>
-            <div className="flex gap-4">
-              {["male", "female", "other"].map((g) => (
-                <label key={g} className="flex items-center gap-1 text-sm">
+            <label className="mb-2 text-sm font-semibold text-gray-800">Gender</label>
+            <div className="flex flex-wrap gap-4">
+              {["male", "female"].map((g) => (
+                <label
+                  key={g}
+                  className={`
+                    flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 cursor-pointer
+                    text-sm text-gray-700 hover:border-purple-400 transition
+                    ${formData.gender === g ? "border-purple-500 bg-purple-50" : ""}
+                  `}
+                >
                   <input
                     type="radio"
                     name="gender"
@@ -95,6 +103,7 @@ export default function PatienDetails({ appointmentDetails, selectedInterval }) 
                     checked={formData.gender === g}
                     onChange={handleInputChange}
                     required
+                    className="accent-purple-600"
                   />
                   {g.charAt(0).toUpperCase() + g.slice(1)}
                 </label>
@@ -105,10 +114,48 @@ export default function PatienDetails({ appointmentDetails, selectedInterval }) 
           <TextInput label="Weight (kg)" name="weight" type="number" value={formData.weight} onChange={handleInputChange} placeholder="Weight" required />
 
           <div className="flex flex-col">
-            <label className="mb-2 font-semibold">Height</label>
+            <label className="mb-2 text-sm font-semibold text-gray-800">Height</label>
             <div className="flex flex-col sm:flex-row gap-2">
-              <input type="number" name="heightFeet" placeholder="ft" value={formData.heightFeet} onChange={handleInputChange} className="p-2 border rounded w-full" required />
-              <input type="number" name="heightInch" placeholder="in" value={formData.heightInch} onChange={handleInputChange} className="p-2 border rounded w-full" required />
+              <input type="number" name="heightFeet" placeholder="ft" value={formData.heightFeet} onChange={handleInputChange}
+                className="
+                sm:w-1/2
+                p-3
+                border
+                border-gray-300
+                rounded-lg
+                text-gray-900
+                placeholder-gray-400
+                shadow-sm
+                focus:outline-none
+                focus:ring-2
+                focus:ring-purple-400
+                focus:border-transparent
+                transition
+                duration-300
+                ease-in-out
+                hover:border-purple-500
+                "
+                required />
+              <input type="number" name="heightInch" placeholder="in" value={formData.heightInch} onChange={handleInputChange}
+                className="
+                sm:w-1/2
+                p-3
+                border
+                border-gray-300
+                rounded-lg
+                text-gray-900
+                placeholder-gray-400
+                shadow-sm
+                focus:outline-none
+                focus:ring-2
+                focus:ring-purple-400
+                focus:border-transparent
+                transition
+                duration-300
+                ease-in-out
+                hover:border-purple-500
+                "
+                required />
             </div>
           </div>
         </div>
@@ -141,5 +188,5 @@ export default function PatienDetails({ appointmentDetails, selectedInterval }) 
         </button>
       </form>
     </>
-    );
+  );
 }
