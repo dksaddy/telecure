@@ -134,6 +134,7 @@ export default function BookAppointment() {
     patientId: user.id,
     patientName: user.name,
     patientDOB: user.dateOfBirth,
+    docDetails: doctor,
   });
 
   return (

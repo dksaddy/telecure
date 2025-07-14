@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useFormStore } from "../../store/formstore";
 import { useRouter } from "next/navigation";
 import SubmittedFiles from "./components/SubmittedFiles";
+import DocDetails from "../components/docDetail";
 
 export default function Confirm() {
   const formData = useFormStore((state) => state.formData);
@@ -12,7 +13,7 @@ export default function Confirm() {
 
   const handleSubmit = async () => {
     setLoading(true);
-
+    delete formData.docDetails; // Remove docDetails from formData before sending
     try {
       const data = new FormData();
 
@@ -49,6 +50,9 @@ export default function Confirm() {
       setLoading(false);
     }
   };
+
+  console.log("Form Data:", formData);
+  
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md space-y-6 mt-30">
@@ -91,6 +95,8 @@ export default function Confirm() {
 
 
       <SubmittedFiles files={formData.files} />
+
+      <DocDetails doctor={formData.docDetails} />
 
       <button
         onClick={handleSubmit}

@@ -26,6 +26,7 @@ export default function PatienDetails({ appointmentDetails, selectedInterval }) 
         patientId: appointmentDetails?.patientId || "",
         status: "pending",
         paymentStatus: false,
+        docDetails: appointmentDetails?.docDetails || {},
     });
 
     const [fileError, setFileError] = useState("");

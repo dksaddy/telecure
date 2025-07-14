@@ -9,7 +9,7 @@ export default function DocDetails({ doctor }) {
         <div className="max-w-4xl mx-auto p-6">
             {/* Doctor Profile Image*/}
             <div className="flex justify-center mb-6">
-                <img src={"dp/default.jpg"} alt={`${firstName} ${lastName}`} className="w-40 h-40 rounded-full border-4 border-blue-500" />
+                <img src={"../dp/default.jpg"} alt={`${firstName} ${lastName}`} className="w-40 h-40 rounded-full border-4 border-blue-500" />
             </div>
 
             {/* Doctor Name */}
