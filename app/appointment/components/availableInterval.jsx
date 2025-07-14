@@ -31,7 +31,7 @@ export default function AvailableInterval({
               className={`flex items-center justify-center text-sm border rounded p-2 ${isPast
                   ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                   : selectedInterval?.start === interval.start
-                    ? "bg-blue-100 text-blue-800 rounded-full"
+                    ? "bg-blue-100 text-blue-800 rounded-lg font-bold"
                     : "bg-white text-purple-800 border-purple-400 hover:bg-purple-100"
                 }`}
               onClick={() => !isPast && handleIntervalSelect(interval)}

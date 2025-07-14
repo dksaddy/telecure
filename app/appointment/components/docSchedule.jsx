@@ -7,7 +7,7 @@ export default function DocSchedule({ selectedDate, dates, handleDateSelect }) {
                     <button
                         key={i}
                         className={`min-w-[80px] text-center p-2 rounded border border-purple-400 hover:bg-purple-100 text-sm ${selectedDate?.toDateString() === d.toDateString()
-                                ? "bg-blue-700 text-white"
+                                ? "bg-blue-100 text-blue-800 font-bold"
                                 : "bg-white text-black"
                             }`}
                         onClick={() => handleDateSelect(d)}
