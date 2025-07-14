@@ -8,11 +8,10 @@ export default function AvailableInterval({
 
   return (
     <>
-      <h3 className="text-md font-semibold mb-2">Select Appointment Time</h3>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
+      <h2 className="text-lg sm:text-xl font-bold text-blue-700 mb-2">Select Appointment Time</h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {intervals.map((interval, i) => {
           const label = `${interval.start} - ${interval.end}`;
-
           const slotDate = new Date(selectedDate);
           let [hour, minutePart] = interval.start.split(":");
           const minutes = parseInt(minutePart);
@@ -29,13 +28,12 @@ export default function AvailableInterval({
             <button
               key={i}
               disabled={isPast}
-              className={`flex items-center justify-center text-sm border rounded p-2 ${
-                isPast
+              className={`flex items-center justify-center text-sm border rounded p-2 ${isPast
                   ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                   : selectedInterval?.start === interval.start
-                  ? "bg-purple-600 text-white"
-                  : "bg-white text-purple-800 border-purple-400 hover:bg-purple-100"
-              }`}
+                    ? "bg-purple-600 text-white"
+                    : "bg-white text-purple-800 border-purple-400 hover:bg-purple-100"
+                }`}
               onClick={() => !isPast && handleIntervalSelect(interval)}
             >
               🕒 {label}

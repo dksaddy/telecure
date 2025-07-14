@@ -12,16 +12,14 @@ export default function AvailableTimes({
 
   return (
     <>
-      <h2 className="text-lg font-semibold mb-2">Available Time</h2>
-      <div className="flex flex-wrap gap-2 mb-6">
+      <h2 className="text-lg sm:text-xl font-bold text-blue-700 mb-2">Available Time</h2>
+      <div className="flex flex-wrap gap-2">
         {slots.map((slot, i) => {
           const label = `${slot.start} - ${slot.end}`;
           return (
             <button
               key={i}
-              className={`min-w-[120px] p-2 rounded border text-sm ${selectedTimeRange === label
-                  ? "bg-purple-600 text-white"
-                  : "bg-white text-black"
+              className={`min-w-[120px] p-2 rounded border text-sm ${selectedTimeRange === label ? "bg-purple-600 text-white" : "bg-white text-black"
                 }`}
               onClick={() => handleTimeRangeSelect(label)}
             >

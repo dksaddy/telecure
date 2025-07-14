@@ -138,42 +138,44 @@ export default function BookAppointment() {
   });
 
   return (
-    <div className="grid grid-cols-12 gap-1 px-20 py-8 pt-[80px]">
+    <div className="grid grid-cols-12 gap-4 px-4 sm:px-6 lg:px-20 py-8 pt-[80px] font-sans">
 
-      <div className="col-span-12 md:col-span-4 p-2 rounded-lg shadow-md">
-        <DocDetails doctor={doctor} />
-      </div>
+  {/* Left - Doctor Details */}
+  <div className="col-span-12 md:col-span-4 p-2 rounded-lg shadow-md bg-white">
+    <DocDetails doctor={doctor} />
+  </div>
 
-      <div className="col-span-12 md:col-span-8 p-8 bg-gray-50 rounded-lg shadow-md">
-        <DocSchedule
-          selectedDate={selectedDate}
-          dates={dates}
-          handleDateSelect={handleDateSelect}
-        />
+  {/* Right - Scheduling + Patient Form */}
+  <div className="col-span-12 md:col-span-8 p-4 sm:p-6 bg-gray-50 rounded-lg shadow-md space-y-6">
+    <DocSchedule 
+      selectedDate={selectedDate} 
+      dates={dates} 
+      handleDateSelect={handleDateSelect} 
+    />
 
-        <AvailableTimes
-          selectedDate={selectedDate}
-          doctor={doctor}
-          selectedTimeRange={selectedTimeRange}
-          handleTimeRangeSelect={handleTimeRangeSelect}
-        />
+    <AvailableTimes
+      selectedDate={selectedDate}
+      doctor={doctor}
+      selectedTimeRange={selectedTimeRange}
+      handleTimeRangeSelect={handleTimeRangeSelect}
+    />
 
-        {selectedDate && selectedTimeRange && (
-          <AvailableInterval
-            intervals={getDaySlots(selectedDate, selectedTimeRange)}
-            selectedInterval={selectedInterval}
-            selectedDate={selectedDate}
-            handleIntervalSelect={handleIntervalSelect}
-          />
-        )}
+    {selectedDate && selectedTimeRange && (
+      <AvailableInterval
+        intervals={getDaySlots(selectedDate, selectedTimeRange)}
+        selectedInterval={selectedInterval}
+        selectedDate={selectedDate}
+        handleIntervalSelect={handleIntervalSelect}
+      />
+    )}
+
+    <PatientDetails
+      appointmentDetails={appointmentDetails}
+      selectedInterval={selectedInterval}
+    />
+  </div>
+</div>
 
 
-        <PatientDetails
-          appointmentDetails={appointmentDetails}
-          selectedInterval={selectedInterval}
-        />
-
-      </div>
-    </div>
   );
 }
