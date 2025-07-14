@@ -93,7 +93,7 @@ export default function PatienDetails({ appointmentDetails, selectedInterval }) 
                   className={`
                     flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 cursor-pointer
                     text-sm text-gray-700 hover:border-purple-400 transition
-                    ${formData.gender === g ? "border-purple-500 bg-purple-50" : ""}
+                    ${formData.gender === g ? "border-purple-500 bg-purple-100" : ""}
                   `}
                 >
                   <input
@@ -125,7 +125,7 @@ export default function PatienDetails({ appointmentDetails, selectedInterval }) 
                 rounded-lg
                 text-gray-900
                 placeholder-gray-400
-                shadow-sm
+                font-bold
                 focus:outline-none
                 focus:ring-2
                 focus:ring-purple-400
@@ -145,7 +145,7 @@ export default function PatienDetails({ appointmentDetails, selectedInterval }) 
                 rounded-lg
                 text-gray-900
                 placeholder-gray-400
-                shadow-sm
+                font-bold
                 focus:outline-none
                 focus:ring-2
                 focus:ring-purple-400

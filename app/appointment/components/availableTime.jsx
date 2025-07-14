@@ -19,7 +19,7 @@ export default function AvailableTimes({
           return (
             <button
               key={i}
-              className={`min-w-[120px] p-2 rounded border text-sm ${selectedTimeRange === label ? "bg-purple-600 text-white" : "bg-white text-black"
+              className={`min-w-[120px] p-2 rounded border border-purple-400 hover:bg-purple-100 text-sm ${selectedTimeRange === label ? "bg-blue-100 text-blue-800 rounded-full" : "bg-white text-black"
                 }`}
               onClick={() => handleTimeRangeSelect(label)}
             >

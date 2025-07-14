@@ -19,7 +19,6 @@ export default function TextInput({ label, name, value, onChange, type = "text",
       rounded-lg
       text-gray-900
       placeholder-gray-400
-      shadow-sm
       focus:outline-none
       focus:ring-2
       focus:ring-purple-400
