@@ -1,8 +1,17 @@
-// components/SubmittedFiles.tsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function SubmittedFiles({ files }) {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+
+  useEffect(() => {
+    if (selectedFile) {
+      const objectUrl = URL.createObjectURL(selectedFile);
+      setPreviewUrl(objectUrl);
+
+      return () => URL.revokeObjectURL(objectUrl); // cleanup
+    }
+  }, [selectedFile]);
 
   return (
     <div>
@@ -16,12 +25,14 @@ export default function SubmittedFiles({ files }) {
           >
             {file.type?.startsWith("image") ? (
               <img
-                src={file.url}
+                src={URL.createObjectURL(file)}
                 alt={file.name}
                 className="w-full h-24 object-cover rounded"
               />
             ) : file.type === "application/pdf" ? (
-              <div className="text-sm text-blue-600 underline">📄 {file.name || `PDF ${index + 1}`}</div>
+              <div className="text-sm text-blue-600">
+              📜 {file.name || `PDF ${index + 1}`}
+              </div>
             ) : (
               <p className="text-gray-500 text-xs">Unknown file</p>
             )}
@@ -30,14 +41,14 @@ export default function SubmittedFiles({ files }) {
       </div>
 
       {/* Modal */}
-      {selectedFile && (
+      {selectedFile && previewUrl && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
           onClick={() => setSelectedFile(null)}
         >
           <div
             className="bg-white p-4 rounded max-w-lg w-full shadow-lg relative"
-            onClick={(e) => e.stopPropagation()} // Prevent close on modal click
+            onClick={(e) => e.stopPropagation()}
           >
             <button
               className="absolute top-2 right-2 text-gray-600 hover:text-black"
@@ -46,17 +57,17 @@ export default function SubmittedFiles({ files }) {
               ✖
             </button>
 
-            {selectedFile.type?.startsWith("image") ? (
+            {selectedFile.type.startsWith("image") ? (
               <img
-                src={selectedFile.url}
+                src={previewUrl}
                 alt={selectedFile.name}
                 className="w-full h-auto rounded"
               />
             ) : selectedFile.type === "application/pdf" ? (
               <iframe
-                src={selectedFile.url}
+                src={previewUrl}
                 title="PDF Preview"
-                className="w-full h-[500px] rounded"
+                className="w-full h-[500px] rounded mt-4"
               />
             ) : (
               <p className="text-gray-700 text-sm">Cannot preview this file type.</p>
