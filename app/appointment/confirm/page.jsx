@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormStore } from "../../store/formstore";
 import SubmittedFiles from "./components/SubmittedFiles";
 import DocDetails from "../components/docDetail";
@@ -8,7 +8,13 @@ import DocDetails from "../components/docDetail";
 export default function Confirm() {
   const formData = useFormStore((state) => state.formData);
   const [loading, setLoading] = useState(false);
+  const [doctor, setDoctor] = useState(null);
+  const [fetchingDoctor, setFetchingDoctor] = useState(true); // track fetch state
+  const [error, setError] = useState(null);
 
+  const docId = formData?.docId;
+
+  // Show fallback if no form data
   if (!formData || Object.keys(formData).length === 0) {
     return (
       <div className="flex items-center justify-center h-screen text-red-600 font-semibold">
@@ -17,9 +23,33 @@ export default function Confirm() {
     );
   }
 
+  useEffect(() => {
+    const fetchDoctorDetails = async () => {
+      if (!docId) return;
+
+      try {
+        const response = await fetch("/api/mydoc", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ docId }),
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch doctor details");
+        const data = await response.json();
+        setDoctor(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setFetchingDoctor(false);
+      }
+    };
+
+    fetchDoctorDetails();
+  }, [docId]);
+
   const handleSubmit = async () => {
     setLoading(true);
-    
+
     try {
       const data = new FormData();
 
@@ -44,7 +74,6 @@ export default function Confirm() {
         alert("Appointment submitted successfully!");
         window.location.href = result.gatewayUrl;
       } else {
-        //show error message in a modal
         console.error("Submission error:", result.error);
         alert("Failed to submit appointment.");
       }
@@ -57,14 +86,28 @@ export default function Confirm() {
     }
   };
 
-  console.log("Form Data:", formData);
+  if (fetchingDoctor) {
+    return (
+      <div className="flex items-center justify-center h-screen text-gray-600">
+        Fetching doctor details...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen text-red-600">
+        Error: {error}
+      </div>
+    );
+  }
 
 
   return (
     <div className="grid grid-cols-12 gap-1 px-20 py-8 pt-[80px]">
 
       <div className="col-span-12 md:col-span-4 p-2 rounded-lg shadow-md">
-        {/*<DocDetails />*/}
+        <DocDetails doctor={doctor}/>
       </div>
 
       <div className="col-span-12 md:col-span-8 p-8 bg-gray-50 rounded-lg shadow-md">
