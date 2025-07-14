@@ -9,6 +9,14 @@ export default function Confirm() {
   const formData = useFormStore((state) => state.formData);
   const [loading, setLoading] = useState(false);
 
+  if (!formData || Object.keys(formData).length === 0) {
+    return (
+      <div className="flex items-center justify-center h-screen text-red-600 font-semibold">
+        No appointment data found. Please go back and fill the form.
+      </div>
+    );
+  }
+
   const handleSubmit = async () => {
     setLoading(true);
     delete formData.docDetails; // Remove docDetails from formData before sending
