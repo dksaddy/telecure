@@ -1,12 +1,13 @@
 'use client';
 
+import FileGallery from "./FileGallery";
 import React from 'react';
 
 export default function PrescriptionHeader({ doctor, appointment }) {
   return (
     <>
       {/* Top Row: Doctor & Appointment Info */}
-      <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4 font-sans text-gray-800">
+      <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4 font-sans text-gray-700">
         {/* Doctor Info */}
         <div className="w-full sm:w-1/2 bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
           <h2 className="text-xl font-bold text-purple-700 mb-1">Dr. {doctor.name}</h2>
@@ -15,7 +16,7 @@ export default function PrescriptionHeader({ doctor, appointment }) {
         </div>
 
         {/* Appointment Info */}
-        <div className="w-full sm:w-1/2 bg-white rounded-lg p-4 border border-gray-200 shadow-sm text-sm sm:text-end">
+        <div className="w-full sm:w-1/2 bg-white rounded-lg p-4 border border-gray-200 shadow-sm text-sm">
           <p><strong>Appointment ID:</strong> {appointment._id}</p>
           <p><strong>Date:</strong> {appointment.date}</p>
           <p><strong>Time:</strong> {appointment.interval.start} - {appointment.interval.end}</p>
@@ -24,14 +25,20 @@ export default function PrescriptionHeader({ doctor, appointment }) {
       </div>
 
       {/* Patient Info */}
-      <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm font-sans text-sm text-gray-800 space-y-2 mb-6">
-        <h2 className="text-lg font-semibold text-purple-700 mb-2">Patient Details</h2>
-        <div className="flex flex-wrap gap-x-12 gap-y-2">
-          <div><strong>Name:</strong> {appointment.name}</div>
-          <div><strong>Age:</strong> {appointment.age}</div>
-          <div><strong>Sex:</strong> {appointment.gender}</div>
-          <div><strong>Weight:</strong> {appointment.weight} kg</div>
-          <div><strong>Height:</strong> {appointment.heightFeet}' {appointment.heightInch}"</div>
+      <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4 font-sans text-gray-700">
+        <div className="w-full sm:w-1/2 bg-white rounded-lg p-4 border border-gray-200 shadow-sm font-sans text-sm text-gray-700 space-y-2 mb-6">
+          <h2 className="text-lg font-semibold text-purple-700 mb-2">Patient Details</h2>
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            <div><strong>Name:</strong> {appointment.name}</div>
+            <div><strong>Age:</strong> {appointment.age}</div>
+            <div><strong>Sex:</strong> {appointment.gender}</div>
+            <div><strong>Weight:</strong> {appointment.weight} kg</div>
+            <div><strong>Height:</strong> {appointment.heightFeet} ft {appointment.heightInch} in</div>
+          </div>
+        </div>
+
+        <div className="w-full sm:w-1/2 bg-white rounded-lg p-4 border border-gray-200 shadow-sm font-sans text-sm text-gray-700 space-y-2 mb-6">
+          <FileGallery files={appointment.files} />
         </div>
       </div>
     </>
