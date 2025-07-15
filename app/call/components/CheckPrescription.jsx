@@ -51,16 +51,12 @@ export default function CheckPrescription({ data }) {
 
   return (
     <>
-
       <PrescriptionHeader doctor={doctor} appointment={appointment} />
 
       {/* Summary Section */}
       <div className="bg-white rounded-xl p-3 sm:p-4 max-w-6xl mx-auto font-sans space-y-4 shadow-sm border border-gray-100">
         {/* Header */}
-        <div>
           <h2 className="text-xl sm:text-lg font-semibold text-purple-700 mb-1">Prescription Summary</h2>
-          <p className="text-sm text-gray-500">Issued on: {new Date(cData.createdAt).toLocaleDateString()}</p>
-        </div>
 
         {/* Complaint / Investigation / Diagnosis */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -100,7 +96,7 @@ export default function CheckPrescription({ data }) {
 
               <div className="grid sm:grid-cols-2 gap-2 text-sm text-gray-700">
                 <p><span className="font-bold">Frequency:</span> {med.frequency.join(", ")}</p>
-                <p><span className="font-bold">Duration:</span> {med.duration}</p>
+                <p><span className="font-bold">Duration:</span> {med.duration} Days</p>
               </div>
 
               <p className="text-sm text-gray-700 mt-2">

@@ -25,8 +25,8 @@ export default function PrescriptionHeader({ doctor, appointment }) {
       </div>
 
       {/* Patient Info */}
-      <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4 font-sans text-gray-700">
-        <div className="w-full sm:w-1/2 bg-white rounded-lg p-4 border border-gray-200 shadow-sm font-sans text-sm text-gray-700 space-y-2 mb-6">
+      <div className="flex flex-col sm:flex-row justify-between gap-4 font-sans text-gray-700">
+        <div className="w-full sm:w-1/2 bg-white rounded-lg p-4 border border-gray-200 shadow-sm font-sans text-sm text-gray-700 space-y-2 mb-4">
           <h2 className="text-lg font-semibold text-purple-700 mb-2">Patient Details</h2>
           <div className="flex flex-wrap gap-x-5 gap-y-2">
             <div><strong>Name:</strong> {appointment.name}</div>
@@ -37,7 +37,7 @@ export default function PrescriptionHeader({ doctor, appointment }) {
           </div>
         </div>
 
-        <div className="w-full sm:w-1/2 bg-white rounded-lg p-4 border border-gray-200 shadow-sm font-sans text-sm text-gray-700 space-y-2 mb-6">
+        <div className="w-full sm:w-1/2 bg-white rounded-lg p-4 border border-gray-200 shadow-sm font-sans text-sm text-gray-700 space-y-2 mb-4">
           <FileGallery files={appointment.files} />
         </div>
       </div>
