@@ -7,6 +7,8 @@ import { useAuth } from "../context.js/AuthContext";
 import Dropdown from "./dropdown";
 import { MessageSquareText, Bell, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 
 const Header = () => {
   const [dropDown, setDropDown] = useState(false);
@@ -43,58 +45,99 @@ const Header = () => {
             <Link href="/">
               <img src="/logos/default.png" alt="Logo" className="h-10 " />
             </Link>
-            <ul className="flex items-center gap-8 text-background text-[18px] ">
-              <li className="nav-link active">
-                <Link href="/">Home</Link>
+            <ul className="flex items-center gap-2 text-background text-[18px] ">
+              <li>
+                <Link
+                  href="/"
+                  className={`${buttonVariants({ variant: "link" })} `}
+                >
+                  Home
+                </Link>
               </li>
               {user?.role !== "doctor" && (
-                <li className="nav-link">
-                  <Link href="/find">Find a doctor</Link>
-                </li>
+                <>
+                  <li>
+                    <Link
+                      href="/find"
+                      className={buttonVariants({ variant: "link" })}
+                    >
+                      Services
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/find"
+                      className={buttonVariants({ variant: "link" })}
+                    >
+                      Consultation
+                    </Link>
+                  </li>
+                </>
               )}
 
-              <li className="nav-link">
-                <Link href="/find">About Us</Link>
+              <li>
+                <Link
+                  href="/about"
+                  className={buttonVariants({ variant: "link" })}
+                >
+                  About Us
+                </Link>
               </li>
-              <li className="nav-link">
-                <Link href="/find">Contact Us</Link>
-              </li>
-              <li className="ms-5">
-                {!user ? (
-                  <Link href="/auth/login">
-                    <button className="btn btn-primary">Sign in</button>
-                  </Link>
-                ) : (
-                  <div className="flex items-center gap-3 ">
-                    <Link href="message">
-                      <MessageSquareText className="text-gray-600 w-7 h-7 hover:text-gray-700 transition-all hover:scale-110" />
-                    </Link>
-                    <Link href="notification">
-                      <Bell className="text-gray-600 w-7 h-7 hover:text-gray-700 transition-all hover:scale-110" />
-                    </Link>
-                    <div
-                      className={`flex items-center gap-0 cursor-pointer p-2 relative rounded-lg transition outline-2 ${
-                        dropDown && "  outline-gray-300 "
-                      }`}
-                      onClick={toogleDropDown}
-                    >
-                      <img
-                        src={user.profileImage}
-                        className="h-8 rounded-full "
-                        alt=""
-                      />
-
-                      <ChevronDown className="h-7 w-7 text-gray-600" />
-                      <Dropdown
-                        state={dropDown}
-                        change={toogleDropDown}
-                        logout={logout}
-                      />
-                    </div>
-                  </div>
-                )}
+              <li>
+                <Link
+                  href="/contact"
+                  className={buttonVariants({ variant: "link" })}
+                >
+                  Contact Us
+                </Link>
               </li>
             </ul>
+            {!user ? (
+              <div className="flex gap-1 items-center">
+                <Link href="/auth/register">
+                  <Button
+                    size="lg"
+                    className="hover:cursor-pointer"
+                    variant="ghost"
+                  >
+                    Sign in
+                  </Button>
+                </Link>
+                <Link href="/auth/login">
+                  <Button size="lg" className="hover:cursor-pointer">
+                    Get Started
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3 ">
+                <Link href="message">
+                  <MessageSquareText className="text-gray-600 w-7 h-7 hover:text-gray-700 transition-all hover:scale-110" />
+                </Link>
+                <Link href="notification">
+                  <Bell className="text-gray-600 w-7 h-7 hover:text-gray-700 transition-all hover:scale-110" />
+                </Link>
+                <div
+                  className={`flex items-center gap-0 cursor-pointer p-2 relative rounded-lg transition outline-2 ${
+                    dropDown && "  outline-gray-300 "
+                  }`}
+                  onClick={toogleDropDown}
+                >
+                  <img
+                    src={user.profileImage}
+                    className="h-8 rounded-full "
+                    alt=""
+                  />
+
+                  <ChevronDown className="h-7 w-7 text-gray-600" />
+                  <Dropdown
+                    state={dropDown}
+                    change={toogleDropDown}
+                    logout={logout}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

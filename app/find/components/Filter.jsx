@@ -16,6 +16,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Button } from "@/components/ui/button";
 
 import useFilterStore from "@/app/store/useFilterStore";
 
@@ -36,6 +37,7 @@ const Filter = () => {
     setExperience,
     setAvailableToday,
     setCategories,
+    resetFilters,
   } = useFilterStore();
 
   useEffect(() => {
@@ -141,6 +143,11 @@ const Filter = () => {
           onCheckedChange={(checked) => setAvailableToday(checked === true)}
         />
         <Label htmlFor="availableToday">Available Today</Label>
+      </div>
+      <div>
+        <Button variant="outline" className="text-sm!" onClick={resetFilters}>
+          Reset Form
+        </Button>
       </div>
     </div>
   );
