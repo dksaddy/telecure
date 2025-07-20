@@ -1,7 +1,7 @@
 "use client";
 import Voice from "./components/Voice";
 import { useState } from "react";
-
+import Filter from "./components/Filter";
 import DoctorList from "./components/DoctorList";
 
 import "./doctor.css";
@@ -18,7 +18,9 @@ const page = () => {
         <div className="grid grid-cols-12 gap-6">
           {/* Filters Sidebar */}
           <div id="Filters" className="col-span-12 md:col-span-3">
-            <div className=" h-full w-full min-h-[300px] p-4"></div>
+            <div className=" h-full w-full min-h-[300px] py-4">
+              <Filter />
+            </div>
           </div>
 
           {/* Main Content */}
