@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Star } from "lucide-react";
 const Doctor = ({
   _id,
@@ -19,10 +20,12 @@ const Doctor = ({
         </p>
       </div>
       <div className="mt-10">
-        <img
+        <Image
           src={profileImage}
-          className="rounded-full mx-auto h-30 w-30 ring-3 ring-white shadow-xl"
-          alt=""
+          width={120}
+          height={120}
+          className="rounded-full mx-auto ring-3 ring-white shadow-xl"
+          alt="DP"
         />
       </div>
       <div>

@@ -22,6 +22,7 @@ export async function loginUser(currentState, formdata) {
     role: existingUser.role,
     dateOfBirth: dayjs(existingUser.dateOfBirth).format("D MMMM YYYY"),
     profileImage: existingUser.profileImage,
+    started: dayjs(existingUser.createdAt).format("MMMM YYYY"), // <-- This line changed
   };
   return { success: true, error: null, user: userData };
 }

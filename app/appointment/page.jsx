@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { splitIntoIntervals } from "./utils/splitsSlots";
 import { getNext30DaysFor } from "./utils/getNextDates";
 import LoadingModal from "../global_components/LoadingModal";
-import { useAuth } from "@/app/context.js/AuthContext";
+import { useAuth } from "@/app/context/AuthContext";
 import DocSchedule from "./components/docSchedule";
 import AvailableTimes from "./components/availableTime";
 import DocDetails from "./components/docDetail";
@@ -12,7 +12,7 @@ import PatientDetails from "./components/patientDetails";
 import AvailableInterval from "./components/availableInterval";
 
 export default function BookAppointment() {
-  const {user} = useAuth();
+  const { user } = useAuth();
   const searchParams = useSearchParams();
   const docId = searchParams.get("mydoc");
 
@@ -73,7 +73,6 @@ export default function BookAppointment() {
 
     fetchBookedIntervals();
   }, [doctor, selectedDate, selectedTimeRange]);
-
 
   if (loading) return <LoadingModal />;
   if (error)
@@ -138,7 +137,6 @@ export default function BookAppointment() {
 
   return (
     <div className="grid grid-cols-12 gap-1 px-20 py-8 pt-[80px]">
-
       <div className="col-span-12 md:col-span-4 p-2">
         <DocDetails doctor={doctor} />
       </div>
@@ -172,7 +170,6 @@ export default function BookAppointment() {
             selectedInterval={selectedInterval}
           />
         </div>
-
       </div>
     </div>
   );

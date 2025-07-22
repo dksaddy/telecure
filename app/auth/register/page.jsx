@@ -1,5 +1,5 @@
 "use client";
-import { useAuth } from "@/app/context.js/AuthContext";
+import { useAuth } from "@/app/context/AuthContext";
 
 import { createUser } from "../api/actions/register";
 import { useActionState } from "react";

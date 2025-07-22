@@ -3,21 +3,25 @@ import React from "react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useAuth } from "../context.js/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import Dropdown from "./dropdown";
 import { MessageSquareText, Bell, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { buttonVariants } from "@/components/ui/button";
+import Image from "next/image";
 
 const Header = () => {
   const [dropDown, setDropDown] = useState(false);
   const { user, logout } = useAuth();
+  console.log(user);
   const toogleDropDown = () => {
     setDropDown(!dropDown);
   };
 
   const pathname = usePathname().startsWith("/auth");
+  const pathName1 = usePathname();
+  const isActive = (path) => pathName1 === path;
 
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -43,23 +47,37 @@ const Header = () => {
         <div className="container h-full">
           <div className="flex items-center justify-between h-full">
             <Link href="/">
-              <img src="/logos/default.png" alt="Logo" className="h-10 " />
+              <Image
+                src="/logos/default.png"
+                alt="Logo"
+                height={80}
+                width={180}
+              />
             </Link>
-            <ul className="flex items-center gap-2 text-background text-[18px] ">
+            <ul className="flex items-center gap-2 text-background text-[18px]">
               <li>
                 <Link
                   href="/"
-                  className={`${buttonVariants({ variant: "link" })} `}
+                  className={`${buttonVariants({ variant: "link" })} ${
+                    isActive("/")
+                      ? "underline underline-offset-[12px] font-semibold text-primary"
+                      : ""
+                  }`}
                 >
                   Home
                 </Link>
               </li>
+
               {user?.role !== "doctor" && (
                 <>
                   <li>
                     <Link
                       href="/find"
-                      className={buttonVariants({ variant: "link" })}
+                      className={`${buttonVariants({ variant: "link" })} ${
+                        isActive("/find")
+                          ? "underline font-semibold underline-offset-[12px] text-primary"
+                          : ""
+                      }`}
                     >
                       Services
                     </Link>
@@ -67,7 +85,11 @@ const Header = () => {
                   <li>
                     <Link
                       href="/find"
-                      className={buttonVariants({ variant: "link" })}
+                      className={`${buttonVariants({ variant: "link" })} ${
+                        isActive("/find")
+                          ? "underline font-semibold underline-offset-[12px] text-primary"
+                          : ""
+                      }`}
                     >
                       Consultation
                     </Link>
@@ -78,15 +100,24 @@ const Header = () => {
               <li>
                 <Link
                   href="/about"
-                  className={buttonVariants({ variant: "link" })}
+                  className={`${buttonVariants({ variant: "link" })} ${
+                    isActive("/about")
+                      ? "underline font-semibold underline-offset-[12px] text-primary"
+                      : ""
+                  }`}
                 >
                   About Us
                 </Link>
               </li>
+
               <li>
                 <Link
                   href="/contact"
-                  className={buttonVariants({ variant: "link" })}
+                  className={`${buttonVariants({ variant: "link" })} ${
+                    isActive("/contact")
+                      ? "underline font-semibold underline-offset-[12px] text-primary"
+                      : ""
+                  }`}
                 >
                   Contact Us
                 </Link>
@@ -123,10 +154,12 @@ const Header = () => {
                   }`}
                   onClick={toogleDropDown}
                 >
-                  <img
+                  <Image
                     src={user.profileImage}
-                    className="h-8 rounded-full "
-                    alt=""
+                    className="rounded-full"
+                    height={32}
+                    width={32}
+                    alt="Profile Picture"
                   />
 
                   <ChevronDown className="h-7 w-7 text-gray-600" />

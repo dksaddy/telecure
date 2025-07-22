@@ -33,6 +33,7 @@ export async function createUser(currentState, formdata) {
     role: user.role,
     id: user._id.toString(),
     profileImage: user.profileImage,
+    started: dayjs().format("MMMM YYYY"), // Current month and year
   };
   return { success: true, error: null, user: userData };
 }
