@@ -28,22 +28,13 @@ const Dropdown = ({ children }) => {
       <DropdownMenuContent className="w-56" align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            Profile
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <DropdownMenuItem>Profile</DropdownMenuItem>
 
-          <DropdownMenuItem>
-            Settings
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <DropdownMenuItem>Settings</DropdownMenuItem>
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={logout}>
-          Log out
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        <DropdownMenuItem onClick={logout}>Log out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
