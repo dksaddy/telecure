@@ -8,10 +8,11 @@ import { useAuth } from "@/app/context/AuthContext";
 
 const Appointments = () => {
   const { user } = useAuth();
+  const patientId = user.id;
 
-  const patientId = user.id; // Replace with real patientId from auth or props
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("all"); // NEW: "all" | "upcoming" | "completed"
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -33,32 +34,54 @@ const Appointments = () => {
 
   if (loading) return <p>Loading appointments...</p>;
 
+  // 🧠 Filter logic
+  const filteredAppointments = appointments.filter((appt) => {
+    if (filter === "all") return true;
+    if (filter === "completed") return appt.status === "completed";
+    if (filter === "upcoming") return appt.status !== "completed";
+  });
+
   return (
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle>My Appointments</CardTitle>
           <div className="flex gap-2">
-            <Button size="sm" className="bg-blue-500 hover:bg-blue-600">
+            <Button
+              size="sm"
+              className={filter === "all" ? "bg-blue-500 text-white" : ""}
+              variant={filter === "all" ? "default" : "outline"}
+              onClick={() => setFilter("all")}
+            >
               All
             </Button>
-            <Button size="sm" variant="outline">
+            <Button
+              size="sm"
+              className={filter === "upcoming" ? "bg-blue-500 text-white" : ""}
+              variant={filter === "upcoming" ? "default" : "outline"}
+              onClick={() => setFilter("upcoming")}
+            >
               Upcoming
             </Button>
-            <Button size="sm" variant="outline">
+            <Button
+              size="sm"
+              className={filter === "completed" ? "bg-blue-500 text-white" : ""}
+              variant={filter === "completed" ? "default" : "outline"}
+              onClick={() => setFilter("completed")}
+            >
               Completed
             </Button>
           </div>
         </div>
       </CardHeader>
-      <CardContent className="space-y-4">
-        {appointments.length === 0 && <p>No appointments found.</p>}
 
-        {appointments.map((appt) => {
-          // Sample destructuring - adapt to your API response structure
-          console.log(appt);
+      <CardContent className="space-y-4">
+        {filteredAppointments.length === 0 && <p>No appointments found.</p>}
+
+        {filteredAppointments.map((appt) => {
           const isCompleted = appt.status === "completed";
           const doctor = appt.docId || {};
+
           return (
             <Card
               key={appt._id}
@@ -132,9 +155,7 @@ const Appointments = () => {
                     <span className="text-gray-600">Payment: </span>
                     <span
                       className={`font-medium ${
-                        appt.paymentStatus === true
-                          ? "text-green-500"
-                          : "text-red-500"
+                        appt.paymentStatus ? "text-green-500" : "text-red-500"
                       }`}
                     >
                       {appt.paymentStatus ? "Paid" : "Pending"}

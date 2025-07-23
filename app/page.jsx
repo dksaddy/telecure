@@ -1,4 +1,5 @@
-"use Client";
+"use client";
+import { useEffect, useState } from "react";
 import {
   Star,
   Phone,
@@ -8,19 +9,111 @@ import {
   Brain,
   UserCheck,
   Clock,
-  Facebook,
-  Twitter,
-  Linkedin,
-  Instagram,
 } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useAuth } from "./context/AuthContext";
 
 export default function TelemedicineLanding() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { user } = useAuth();
+  const router = useRouter();
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+    if (user.role === "patient") router.push("/dashboard/user");
+    else if (user.role === "doctor") router.push("/dashboard/doctor");
+    else if (user.role === "admin") router.push("/dashboard/admin");
+  }, [user]);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   return (
     <div className="min-h-screen pt-[80px] bg-white">
+      <div
+        className={`fixed top-0 w-screen h-[80px] bg-white z-50 transition-shadow ${
+          isScrolled ? "shadow-md" : ""
+        }`}
+      >
+        <div className="container h-full">
+          <div className="flex items-center justify-between h-full">
+            <Link href="/">
+              <Image
+                src="/logos/default.png"
+                alt="Logo"
+                height={80}
+                width={180}
+              />
+            </Link>
+            <ul className="flex items-center gap-2 text-background text-[18px]">
+              <li>
+                <Link href="/" className={buttonVariants({ variant: "link" })}>
+                  Home
+                </Link>
+              </li>
+
+              <>
+                <li>
+                  <Link
+                    href="/find"
+                    className={buttonVariants({ variant: "link" })}
+                  >
+                    Services
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/find"
+                    className={buttonVariants({ variant: "link" })}
+                  >
+                    Consultation
+                  </Link>
+                </li>{" "}
+                <li>
+                  <Link
+                    href="/find"
+                    className={buttonVariants({ variant: "link" })}
+                  >
+                    About Us
+                  </Link>
+                </li>
+              </>
+            </ul>
+
+            <div className="flex gap-1 items-center">
+              <Link href="/auth/login">
+                <Button
+                  size="lg"
+                  className="hover:cursor-pointer"
+                  variant="ghost"
+                >
+                  Sign in
+                </Button>
+              </Link>
+              <Link href="/auth/register">
+                <Button size="lg" className="hover:cursor-pointer">
+                  Get Started
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
       {/* Hero Section */}
       <section className="py-20  bg-gradient-to-br from-blue-50 to-white">
         <div className="container mx-auto px-4">

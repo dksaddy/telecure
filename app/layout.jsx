@@ -30,7 +30,6 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${roboto.variable}  antialiased `}>
         <AuthProvider>
-          <Header />
           {children}
           <Footer />
         </AuthProvider>
