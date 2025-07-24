@@ -20,7 +20,7 @@ import { Badge } from "@/components/ui/badge";
 
 export default function DoctorDashboard() {
   return (
-    <div className="min-h-screen  container ">
+    <div className="min-h-screen container">
       <div className="py-6">
         {/* Metrics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
