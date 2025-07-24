@@ -31,8 +31,17 @@ export async function GET(req) {
   await connectDB();
 
   const { searchParams } = new URL(req.url);
+
   const category = searchParams.get("category");
   const search = searchParams.get("search");
+  const experience = searchParams.get("experience");
+  const gender = searchParams.get("gender");
+  const country = searchParams.get("country");
+  const city = searchParams.get("city");
+  const district = searchParams.get("district");
+  const availableToday = searchParams.get("availableToday");
+  const education = searchParams.get("education");
+  const ratingValue = searchParams.get("rating");
 
   const query = {};
 
@@ -45,6 +54,34 @@ export async function GET(req) {
       { firstName: { $regex: search, $options: "i" } },
       { lastName: { $regex: search, $options: "i" } },
     ];
+  }
+
+  if (experience) {
+    query.experience = { $gte: Number(experience) };
+  }
+
+  if (ratingValue) {
+    query.ratings = { $gte: Number(ratingValue) };
+  }
+
+  if (gender) {
+    query.gender = gender;
+  }
+
+  if (country || city || district) {
+    if (country) query["address.country"] = country;
+    if (city) query["address.city"] = city;
+    if (district) query["address.district"] = district;
+  }
+
+  if (availableToday === "true") {
+    const today = new Date().toLocaleDateString("en-US", { weekday: "long" });
+    query["availableSlots.day"] = today;
+    console.log(today);
+  }
+
+  if (education) {
+    query.education = { $regex: education, $options: "i" };
   }
 
   try {

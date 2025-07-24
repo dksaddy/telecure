@@ -121,7 +121,7 @@ export default function SpeechToText({ setSelectedCategory }) {
   console.log("Final Text:", apiResponse);
 
   return (
-    <div className="mt-10">
+    <div>
       <h2 className="text-2xl text-gray-500 mb-4">Symptom Checker</h2>
 
       <div className="grid grid-cols-8 gap-4 mb-4">

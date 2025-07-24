@@ -1,8 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import { Roboto } from "next/font/google";
 import Header from "./global_components/Header";
+import Footer from "./global_components/Footer";
 import "./globals.css";
-import { AuthProvider } from "./context.js/AuthContext";
+import { AuthProvider } from "./context/AuthContext";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -29,8 +30,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${roboto.variable}  antialiased `}>
         <AuthProvider>
-          <Header />
           {children}
+          <Footer />
         </AuthProvider>
       </body>
     </html>
