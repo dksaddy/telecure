@@ -16,8 +16,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Schedule from "./Components/Schedule";
 import { Badge } from "@/components/ui/badge";
 import Shots from "./Components/Shots";
+import Upcoming from "./Components/Upcoming";
+import Recent from "./Components/Recent";
 
 export default function DoctorDashboard() {
   return (
@@ -30,132 +33,10 @@ export default function DoctorDashboard() {
           {/* Left Column */}
           <div className="lg:col-span-2 space-y-6">
             {/* Upcoming Appointments */}
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="text-lg font-semibold">
-                  Upcoming Appointments
-                </CardTitle>
-                <Button variant="ghost" size="sm" className="text-blue-600">
-                  View All
-                </Button>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                  <div className="flex items-center space-x-3">
-                    <Avatar>
-                      <AvatarImage src="/placeholder.svg?height=40&width=40" />
-                      <AvatarFallback>SJ</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-medium text-gray-900">Sarah Johnson</p>
-                      <p className="text-sm text-gray-600">
-                        10:30 AM - General Consultation
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        Age: 34, ID: #P2048
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
-                      <Phone className="w-4 h-4 mr-1" />
-                      Start Call
-                    </Button>
-                    <Button variant="ghost" size="sm">
-                      <MoreVertical className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                  <div className="flex items-center space-x-3">
-                    <Avatar>
-                      <AvatarImage src="/placeholder.svg?height=40&width=40" />
-                      <AvatarFallback>MC</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-medium text-gray-900">Michael Chen</p>
-                      <p className="text-sm text-gray-600">
-                        11:15 AM - Follow-up
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        Age: 45, ID: #P2049
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Button variant="outline" size="sm">
-                      Confirm
-                    </Button>
-                    <Button variant="ghost" size="sm">
-                      <MoreVertical className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <Upcoming />
 
             {/* Recent Patients */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold">
-                  Recent Patients
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center space-x-3">
-                    <Avatar>
-                      <AvatarImage src="/placeholder.svg?height=40&width=40" />
-                      <AvatarFallback>EW</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-medium text-gray-900">Emma Wilson</p>
-                      <p className="text-sm text-gray-600">
-                        Last consultation: 2 days ago
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex space-x-2">
-                    <Button variant="ghost" size="sm">
-                      <FileText className="w-4 h-4 text-blue-600" />
-                    </Button>
-                    <Button variant="ghost" size="sm">
-                      <Phone className="w-4 h-4 text-blue-600" />
-                    </Button>
-                    <Button variant="ghost" size="sm">
-                      <MoreVertical className="w-4 h-4 text-blue-600" />
-                    </Button>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center space-x-3">
-                    <Avatar>
-                      <AvatarImage src="/placeholder.svg?height=40&width=40" />
-                      <AvatarFallback>DB</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-medium text-gray-900">David Brown</p>
-                      <p className="text-sm text-gray-600">
-                        Last consultation: 1 week ago
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex space-x-2">
-                    <Button variant="ghost" size="sm">
-                      <FileText className="w-4 h-4 text-blue-600" />
-                    </Button>
-                    <Button variant="ghost" size="sm">
-                      <Phone className="w-4 h-4 text-blue-600" />
-                    </Button>
-                    <Button variant="ghost" size="sm">
-                      <MoreVertical className="w-4 h-4 text-blue-600" />
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <Recent />
           </div>
 
           {/* Right Column */}
@@ -202,45 +83,7 @@ export default function DoctorDashboard() {
             </Card>
 
             {/* Today's Schedule */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold">
-                  Today's Schedule
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-center justify-between py-2">
-                  <div className="flex items-center space-x-3">
-                    <span className="text-sm font-medium text-gray-600">
-                      10:30 AM
-                    </span>
-                    <span className="text-sm text-gray-900">Sarah Johnson</span>
-                  </div>
-                  <Badge className="bg-green-100 text-green-800">Active</Badge>
-                </div>
-                <div className="flex items-center justify-between py-2">
-                  <div className="flex items-center space-x-3">
-                    <span className="text-sm font-medium text-gray-600">
-                      11:15 AM
-                    </span>
-                    <span className="text-sm text-gray-900">Michael Chen</span>
-                  </div>
-                  <Badge className="bg-yellow-100 text-yellow-800">
-                    Pending
-                  </Badge>
-                </div>
-                <div className="flex items-center justify-between py-2">
-                  <div className="flex items-center space-x-3">
-                    <span className="text-sm font-medium text-gray-600">
-                      2:00 PM
-                    </span>
-                    <span className="text-sm text-gray-900">Lisa Davis</span>
-                  </div>
-                  <Badge className="bg-blue-100 text-blue-800">Scheduled</Badge>
-                </div>
-              </CardContent>
-            </Card>
-
+            <Schedule />
             {/* Recent Notifications */}
             <Card>
               <CardHeader>
