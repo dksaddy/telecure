@@ -9,6 +9,7 @@ export async function doctorLogin(currentState, formdata) {
   const password = formdata.get("password");
 
   const existingUser = await Doctor.findOne({ email });
+  console.log(existingUser);
   if (!existingUser) {
     return { success: false, error: "Doctor already not found" };
   }
@@ -23,6 +24,7 @@ export async function doctorLogin(currentState, formdata) {
     dateOfBirth: dayjs(existingUser.dateOfBirth).format("D MMMM YYYY"),
     profileImage: existingUser.profileImage,
     role: "doctor",
+    started: dayjs(existingUser.createdAt).format("MMMM YYYY"), // <-- This line changed
   };
   return { success: true, error: null, doctor: doctorData };
 }

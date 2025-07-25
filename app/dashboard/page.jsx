@@ -1,11 +1,9 @@
+"use client";
 import React from "react";
-
+import { useAuth } from "../context/AuthContext";
 const page = () => {
-  return (
-    <div>
-      <h1>Hello world. How Are You.</h1>
-    </div>
-  );
+  const { user } = useAuth();
+  if (user == null) return null;
 };
 
 export default page;

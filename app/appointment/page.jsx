@@ -53,7 +53,7 @@ export default function BookAppointment() {
       if (!doctor || !selectedDate || !selectedTimeRange) return;
 
       try {
-        const res = await fetch("/api/appointment/booked-intervals", {
+        const res = await fetch("api/appointment/booked-intervals", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
