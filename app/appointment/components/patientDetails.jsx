@@ -181,7 +181,7 @@ export default function PatienDetails({ appointmentDetails, selectedInterval }) 
 
         <button
           type="submit"
-          className="w-full md:w-[30%] md:ml-[70%] bg-purple-600 text-white py-2 rounded hover:bg-purple-700"
+          className="w-full md:w-[30%] md:ml-[70%] bg-purple-600 text-white py-2 rounded hover:bg-purple-700 cursor-pointer"
           disabled={!selectedInterval}
         >
           Proceed
