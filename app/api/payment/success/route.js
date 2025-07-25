@@ -28,7 +28,7 @@ export async function POST(req) {
       return NextResponse.json({ error: "Appointment not found" }, { status: 404 });
     }
 
-    const redirectUrl = new URL("http://localhost:3000/payment/success");
+    const redirectUrl = new URL("https://telecure.vercel.app/payment/success");
     redirectUrl.searchParams.set("tran_id", tran_id);
 
     return NextResponse.redirect(redirectUrl.toString(), 303);
