@@ -19,7 +19,7 @@ export default function BookButton() {
       Book Appointment
     </button>
 
-    <JoinCallButton callLink={"telecure-683317838bc2dee3f0329dfb"}/>
+    <JoinCallButton callLink={"telecure-6882118f8bb497e06c22e2d8"}/>
     </>
   );
 }

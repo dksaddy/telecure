@@ -1,5 +1,5 @@
 "use client";
-import { useAuth } from "@/app/context.js/AuthContext";
+import { useAuth } from "@/app/context/AuthContext";
 import { redirect } from "next/navigation";
 import { doctorLogin } from "../api/actions/doctor";
 import { useActionState, useEffect } from "react";

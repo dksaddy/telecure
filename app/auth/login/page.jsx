@@ -1,9 +1,10 @@
 "use client";
-import { useAuth } from "@/app/context.js/AuthContext";
+import { useAuth } from "@/app/context/AuthContext";
 import { redirect } from "next/navigation";
 import { loginUser } from "../api/actions/login";
 import { useActionState, useEffect } from "react";
 import LoadingModal from "@/app/global_components/LoadingModal";
+import Image from "next/image";
 
 import React from "react";
 import Input from "@/app/global_components/Input";

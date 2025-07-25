@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import usePrescriptionStore from '@/app/store/prescriptionStore';
-import DoctorShortDetails from "./sub-components/DoctorShortDetails";
-import MetaDetails from "./sub-components/MetaDetails";
-import PatientShortDetails from "./sub-components/PatientShortDetails";
+import PrescriptionHeader from "./PrescriptionHeader";
 
 export default function AddPrescription({ data }) {
   const { prescription, appointment, doctor } = data;
@@ -40,40 +38,40 @@ export default function AddPrescription({ data }) {
   };
 
   useEffect(() => {
-  medicationName.forEach((name, index) => {
-    const trimmed = name?.trim();
-    if (trimmed && trimmed.length > 0) {
-      (async () => {
-        try {
-          const res = await fetch('/api/prescription/medicine/search', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ searchTerm: trimmed }),
-          });
+    medicationName.forEach((name, index) => {
+      const trimmed = name?.trim();
+      if (trimmed && trimmed.length > 0) {
+        (async () => {
+          try {
+            const res = await fetch('/api/prescription/medicine/search', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ searchTerm: trimmed }),
+            });
 
-          if (!res.ok) {
+            if (!res.ok) {
+              setSearchResults((prev) => ({ ...prev, [index]: [] }));
+              return;
+            }
+
+            const result = await res.json();
+            const newResults = Array.isArray(result) ? result : [];
+
+            setSearchResults((prev) => {
+              const prevResults = prev[index] || [];
+              if (JSON.stringify(prevResults) === JSON.stringify(newResults)) return prev;
+              return { ...prev, [index]: newResults };
+            });
+          } catch (err) {
+            console.error('Search error:', err);
             setSearchResults((prev) => ({ ...prev, [index]: [] }));
-            return;
           }
-
-          const result = await res.json();
-          const newResults = Array.isArray(result) ? result : [];
-
-          setSearchResults((prev) => {
-            const prevResults = prev[index] || [];
-            if (JSON.stringify(prevResults) === JSON.stringify(newResults)) return prev;
-            return { ...prev, [index]: newResults };
-          });
-        } catch (err) {
-          console.error('Search error:', err);
-          setSearchResults((prev) => ({ ...prev, [index]: [] }));
-        }
-      })();
-    } else {
-      setSearchResults((prev) => ({ ...prev, [index]: [] }));
-    }
-  });
-}, [medicationName]);
+        })();
+      } else {
+        setSearchResults((prev) => ({ ...prev, [index]: [] }));
+      }
+    });
+  }, [medicationName]);
 
   const selectMedication = async (index, selected) => {
     const updated = [...medications];
@@ -157,15 +155,7 @@ export default function AddPrescription({ data }) {
 
   return (
     <>
-      <div className="flex justify-between mb-4">
-        <div className="w-1/2">
-          <DoctorShortDetails doctor={doctor} />
-        </div>
-        <div className="w-1/2 text-right">
-          <MetaDetails appointment={appointment} />
-        </div>
-      </div>
-      <PatientShortDetails patient={appointment} />
+      <PrescriptionHeader doctor={doctor} appointment={appointment} />
 
       <form onSubmit={handleSubmit} className="space-y-6 mt-2">
         <div className="flex flex-col md:flex-row gap-6">

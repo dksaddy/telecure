@@ -11,7 +11,7 @@ export async function POST(req) {
 
   const updated = await Appointment.findOneAndUpdate(
     { callLink },
-    { status: 'complete' },
+    { status: 'completed' },
     { new: true }
   );
 
