@@ -77,7 +77,7 @@ export default function Success() {
         )}
 
         <Link
-          href="/"
+          href="/dashboard/user"
           className="mt-8 inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition duration-200"
         >
           🏠 Go Home

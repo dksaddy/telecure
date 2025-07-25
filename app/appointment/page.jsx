@@ -137,7 +137,7 @@ export default function BookAppointment() {
   });
 
   return (
-    <div className="grid grid-cols-12 gap-4 px-4 sm:px-6 lg:px-20 py-8 pt-[80px] font-sans">
+    <div className="grid grid-cols-12 gap-4 px-4 sm:px-6 lg:px-20 py-8 font-sans">
       {/* Left - Doctor Details */}
       <div className="col-span-12 md:col-span-4 p-2 rounded-lg shadow-md bg-white">
         <DocDetails doctor={doctor} />
