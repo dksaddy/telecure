@@ -104,7 +104,7 @@ export default function Confirm() {
 
 
   return (
-    <div className="grid grid-cols-12 gap-4 px-4 sm:px-6 lg:px-20 py-8 pt-[80px] font-sans">
+    <div className="grid grid-cols-12 gap-4 px-4 sm:px-6 lg:px-20 py-8 font-sans">
 
   {/* Doctor Info */}
   <div className="col-span-12 md:col-span-4 p-2 rounded-lg shadow-md bg-white">
