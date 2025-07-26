@@ -4,6 +4,7 @@ import Header from "./global_components/Header";
 import Footer from "./global_components/Footer";
 import "./globals.css";
 import { AuthProvider } from "./context/AuthContext";
+import VoiceNavigator from "./global_components/VoiceNavigator";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
         <AuthProvider>
           {children}
           <Footer />
+          <VoiceNavigator /> {/* 🎤 Floating mic button */}
         </AuthProvider>
       </body>
     </html>
