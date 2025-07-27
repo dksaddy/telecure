@@ -42,85 +42,10 @@ export default function DoctorDashboard() {
           {/* Right Column */}
           <div className="space-y-6">
             {/* Quick Actions */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold">
-                  Quick Actions
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-3">
-                  <Button
-                    variant="outline"
-                    className="h-20 flex flex-col items-center justify-center space-y-2 bg-transparent"
-                  >
-                    <Calendar className="w-6 h-6 text-blue-600" />
-                    <span className="text-sm">Schedule</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="h-20 flex flex-col items-center justify-center space-y-2 bg-transparent"
-                  >
-                    <Clock className="w-6 h-6 text-blue-600" />
-                    <span className="text-sm">Reschedule</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="h-20 flex flex-col items-center justify-center space-y-2 bg-transparent"
-                  >
-                    <FileText className="w-6 h-6 text-blue-600" />
-                    <span className="text-sm">Notes</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="h-20 flex flex-col items-center justify-center space-y-2 bg-transparent"
-                  >
-                    <BarChart3 className="w-6 h-6 text-blue-600" />
-                    <span className="text-sm">Analytics</span>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
 
             {/* Today's Schedule */}
             <Schedule />
             {/* Recent Notifications */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold">
-                  Recent Notifications
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-start space-x-3 p-3 bg-blue-50 rounded-lg">
-                  <User className="w-5 h-5 text-blue-600 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">
-                      New patient registered
-                    </p>
-                    <p className="text-xs text-gray-600">2 minutes ago</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3 p-3 bg-green-50 rounded-lg">
-                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">
-                      Appointment confirmed
-                    </p>
-                    <p className="text-xs text-gray-600">5 minutes ago</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3 p-3 bg-yellow-50 rounded-lg">
-                  <AlertCircle className="w-5 h-5 text-yellow-600 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">
-                      Lab results pending
-                    </p>
-                    <p className="text-xs text-gray-600">1 hour ago</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </div>

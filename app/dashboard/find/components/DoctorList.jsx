@@ -66,7 +66,7 @@ const DoctorList = () => {
   if (error) return <p>Error fetching doctors: {error.message}</p>;
 
   return (
-    <div className="mt-5">
+    <div>
       <h2 className="text-2xl text-gray-500 mb-4">Doctor Lists</h2>
       <div className="grid grid-cols-4 gap-4">
         {data?.map((doctor, index) => (

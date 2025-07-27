@@ -12,8 +12,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "../context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const Dropdown = ({ children }) => {
+  const router = useRouter();
   const { logout } = useAuth();
   return (
     <DropdownMenu>
@@ -26,11 +28,25 @@ const Dropdown = ({ children }) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel className="font-semibold text-base">
+          My Account
+        </DropdownMenuLabel>
         <DropdownMenuGroup>
-          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              router.push("/dashboard/user");
+            }}
+          >
+            Dashboard
+          </DropdownMenuItem>
 
-          <DropdownMenuItem>Settings</DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              router.push("/dashboard/user/settings");
+            }}
+          >
+            Settings
+          </DropdownMenuItem>
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useAuth } from "./context/AuthContext";
-import VoiceNavigator from "./global_components/VoiceNavigator"
+import VoiceNavigator from "./global_components/VoiceNavigator";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -420,11 +420,9 @@ export default function LandingPage() {
               </Card>
             </div>
           </div>
-        </div>
-      </section>
-      {/* Drop this toward the end or inside hero */}
-      {user && <VoiceNavigator />}
         </section>
+        {/* Drop this toward the end or inside hero */}
+        {user && <VoiceNavigator />}
 
         {/* Doctors Section */}
         <section id="doctors" className="bg-gray-50 py-20 md:py-32">

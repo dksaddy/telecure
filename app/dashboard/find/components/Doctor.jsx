@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Star } from "lucide-react";
+
 const Doctor = ({
   _id,
   firstName,
@@ -12,43 +13,50 @@ const Doctor = ({
   profileImage,
 }) => {
   return (
-    <div className="border-1 relative border-gray-200 rounded-lg p-4 hover:shadow-lg transition-all duration-300 bg-white">
-      <div className="absolute left-0 top-5 flex gap-1  items-center bg-amber-100 rounded-r-md p-1">
-        <p className="flex items-center gap-1 pb-0 mb-0 text-md font-semibold text-amber-500">
-          {ratings}
-          <Star className="fill-amber-500" />
-        </p>
+    <div className="relative rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-xl">
+      {/* Ratings badge */}
+      <div className="absolute top-4 left-4 flex items-center gap-1 rounded-md bg-amber-100 px-2 py-1 text-sm font-medium text-amber-600">
+        {ratings}
+        <Star className="w-4 h-4 fill-amber-500 text-amber-500" />
       </div>
-      <div className="mt-10">
+
+      {/* Profile Image */}
+      <div className="mt-6 flex justify-center">
         <Image
           src={profileImage}
-          width={120}
-          height={120}
-          className="rounded-full mx-auto ring-3 ring-white shadow-xl"
-          alt="DP"
+          width={100}
+          height={100}
+          className="rounded-full border-4 border-white shadow-md"
+          alt={`${firstName} ${lastName} profile image`}
         />
       </div>
-      <div>
-        <h5 className="text-[18px] text-center my-3">
-          {firstName + " " + lastName}
-        </h5>
-        <p className="text-gray-500 text-[16px] text-center mb-5 min-h-16">
-          {education}
-        </p>
+
+      {/* Info */}
+      <div className="mt-4 text-center">
+        <h3 className="text-lg font-semibold text-gray-800">
+          {firstName} {lastName}
+        </h3>
+        <p className="text-sm text-gray-500">{education}</p>
+      </div>
+
+      {/* Specializations */}
+      <div className="mt-4 flex flex-wrap justify-center gap-2">
         {specialization?.map((spec, index) => (
-          <p
+          <span
             key={index}
-            className="text-sm bg-blue-100 text-blue-500 text-center py-2 text-[14px] font-semibold rounded-sm"
+            className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-600"
           >
             {spec}
-          </p>
+          </span>
         ))}
-      </div>{" "}
+      </div>
+
+      {/* Button */}
       <Link
         href={`/appointment?mydoc=${_id}`}
-        className="btn btn-outline-green mt-10 w-full block"
+        className="mt-6 block w-full rounded-md bg-green-600 px-4 py-2 text-center text-white font-medium hover:bg-green-700 transition"
       >
-        Book Appinmtment
+        Book Appointment
       </Link>
     </div>
   );

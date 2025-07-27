@@ -41,14 +41,11 @@ const Header = () => {
           </Link>
 
           <div className="flex items-center gap-3 ">
-            <Link href="message">
-              <MessageSquareText className="text-gray-600 w-7 h-7 hover:text-gray-700 transition-all hover:scale-110" />
-            </Link>
             <NotificationDropdown />
             <div>
               <Dropdown>
                 <Image
-                  src={user.profileImage}
+                  src={user?.profileImage || "/dp/default.jpg"}
                   className="rounded-full"
                   height={32}
                   width={32}
