@@ -18,6 +18,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAuth } from "./context/AuthContext";
+import VoiceNavigator from "./global_components/VoiceNavigator"
 
 export default function TelemedicineLanding() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -492,6 +493,8 @@ export default function TelemedicineLanding() {
           </div>
         </div>
       </section>
+      {/* Drop this toward the end or inside hero */}
+      {user && <VoiceNavigator />}
     </div>
   );
 }
