@@ -26,7 +26,7 @@ const page = () => {
       {isPending && <LoadingModal />}
       <div className="h-full w-full bg-background px-30 pt-[76px] box-border">
         <div className="flex flex-col items-start justify-center h-full w-full ">
-          <h2 className="text-[58px] font-bold">Log in</h2>
+          <h2 className="text-[58px] font-bold">Doctor Login</h2>
           <p className="mb-[50px]">Welcome back! Please enter your details</p>
           <form
             action={formAction}

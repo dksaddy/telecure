@@ -3,6 +3,14 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 570px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 990px;
+  --breakpoint-xl: 1170px;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
