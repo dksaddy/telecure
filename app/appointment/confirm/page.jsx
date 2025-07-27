@@ -161,7 +161,7 @@ export default function Confirm() {
       <button
         onClick={handleSubmit}
         disabled={loading}
-        className="bg-purple-600 hover:bg-purple-700 active:bg-purple-800 disabled:bg-gray-400 text-white px-6 py-2 rounded-xl text-sm sm:text-base transition-all duration-300"
+        className="bg-purple-600 hover:bg-purple-700 cursor-pointer active:bg-purple-800 disabled:bg-gray-400 text-white px-6 py-2 rounded-xl text-sm sm:text-base transition-all duration-300"
       >
         {loading ? "Submitting..." : "Confirm Appointment"}
       </button>

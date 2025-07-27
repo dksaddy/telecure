@@ -5,8 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Video, CheckCircle } from "lucide-react";
 import { useAuth } from "@/app/context/AuthContext";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Appointments = () => {
+  const router = useRouter();
   const { user } = useAuth();
   const patientId = user.id;
 
@@ -85,6 +88,7 @@ const Appointments = () => {
           return (
             <Card
               key={appt._id}
+              onClick={() => router.push(`user/appoint/${appt._id}`)}
               className={`border-l-4 ${
                 isCompleted ? "border-l-green-400" : "border-l-orange-400"
               }`}
@@ -123,7 +127,16 @@ const Appointments = () => {
                       <span className="font-medium">Completed</span>
                     </div>
                   ) : (
-                    <Button className="bg-green-500 hover:bg-green-600">
+                    <Button
+                      className="bg-green-500 hover:bg-green-600"
+                      onClick={(e) => {
+                        e.stopPropagation(); // prevents the click from bubbling to Link
+                        e.preventDefault(); // prevents Link navigation
+                        router.push(
+                          `/call?room=${encodeURIComponent(appt.callLink)}`
+                        );
+                      }}
+                    >
                       <Video className="w-4 h-4 mr-2" />
                       Join Call
                     </Button>

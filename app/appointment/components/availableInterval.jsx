@@ -32,7 +32,7 @@ export default function AvailableInterval({
                   ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                   : selectedInterval?.start === interval.start
                     ? "bg-blue-100 text-blue-800 rounded-lg font-bold"
-                    : "bg-white text-purple-800 border-purple-400 hover:bg-purple-100"
+                    : "bg-white text-purple-800 border-purple-400 hover:bg-purple-100 cursor-pointer"
                 }`}
               onClick={() => !isPast && handleIntervalSelect(interval)}
             >

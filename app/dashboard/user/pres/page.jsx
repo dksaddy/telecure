@@ -1,7 +1,20 @@
-import React from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Printer,
+  Download,
+  MapPin,
+  Phone,
+  User,
+  Stethoscope,
+  Pill,
+  Calendar,
+  AlertTriangle,
+  Check,
+} from "lucide-react";
+import Pres from "../components/Pres";
 
-const page = () => {
-  return <div>This is Prescription</div>;
-};
-
-export default page;
+export default function MedicalPrescription() {
+  return <Pres></Pres>;
+}

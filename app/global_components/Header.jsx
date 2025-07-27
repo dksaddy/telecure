@@ -1,14 +1,21 @@
 "use client";
 import React from "react";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
 import Dropdown from "./Dropdown";
 import { MessageSquareText, Bell } from "lucide-react";
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { buttonVariants } from "@/components/ui/button";
+import NotificationDropdown from "./Notification";
 import Image from "next/image";
 
 const Header = () => {
@@ -37,9 +44,7 @@ const Header = () => {
             <Link href="message">
               <MessageSquareText className="text-gray-600 w-7 h-7 hover:text-gray-700 transition-all hover:scale-110" />
             </Link>
-            <Link href="notification">
-              <Bell className="text-gray-600 w-7 h-7 hover:text-gray-700 transition-all hover:scale-110" />
-            </Link>
+            <NotificationDropdown />
             <div>
               <Dropdown>
                 <Image

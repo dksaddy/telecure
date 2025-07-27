@@ -1,15 +1,18 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye } from "lucide-react";
 import { useAuth } from "@/app/context/AuthContext";
+import { id } from "date-fns/locale";
 
 const Pres = () => {
   const { user } = useAuth();
   const [prescriptions, setPrescriptions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchPrescriptions = async () => {
@@ -47,7 +50,7 @@ const Pres = () => {
             medication,
             investigation,
             createdAt,
-            doctor,
+            doctorName,
           } = prescription;
 
           const formattedDate = new Date(createdAt).toLocaleDateString();
@@ -69,10 +72,16 @@ const Pres = () => {
                       Prescription - {formattedDate}
                     </h3>
                     <p className="text-gray-600">
-                      {doctor?.name || "Dr. Unknown"}
+                      {doctorName || "Dr. Unknown"}
                     </p>
                   </div>
-                  <Button size="sm" className="bg-blue-500 hover:bg-blue-600">
+                  <Button
+                    size="sm"
+                    className="bg-blue-500 hover:bg-blue-600"
+                    onClick={() => {
+                      router.push("/dashboard/user/pres/" + _id);
+                    }}
+                  >
                     <Eye className="w-4 h-4 mr-2" />
                     View
                   </Button>

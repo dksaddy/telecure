@@ -106,11 +106,11 @@ export default function CallPageClient() {
   if (!user) return <div className="text-center text-red-500 mt-50">User not authenticated.</div>;
 
   return (
-    <div className="p-4 mt-17">
+    <div className="p-4">
       <div ref={jitsiRef} className="w-full rounded-xl shadow-lg overflow-hidden" />
 
       <button
-        className="fixed top-25 left-5 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-600 transition-colors"
+        className="fixed top-5 left-5 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-600 transition-colors"
         onClick={openModal}
       >
         {user?.role === "patient" ? "Check Prescription" : "Add Prescription"}

@@ -29,7 +29,7 @@ const fetchDoctors = async ({ queryKey }) => {
     params.append("gender", filters.gender);
   }
 
-  const res = await fetch(`api/doctors?${params.toString()}`);
+  const res = await fetch(`../api/doctors?${params.toString()}`);
 
   if (!res.ok) {
     throw new Error("Network response was not ok");
