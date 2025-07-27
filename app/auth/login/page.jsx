@@ -45,6 +45,9 @@ const page = () => {
               title="Password"
               type="password"
             />
+            <Link href="doctor" className="text-blue-600">
+              Login as Doctor
+            </Link>
             <button className="btn btn-primary mt-10 w-full" type="submit">
               Login
             </button>

@@ -1,26 +1,28 @@
 "use client";
-import { useEffect, useState } from "react";
-import {
-  Star,
-  Phone,
-  Download,
-  Users,
-  Mic,
-  Brain,
-  UserCheck,
-  Clock,
-} from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
+import { useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useAuth } from "./context/AuthContext";
+import { useEffect } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Video,
+  Brain,
+  Clock,
+  Mic,
+  UserPlus,
+  Calendar,
+  Star,
+  FileText,
+  Stethoscope,
+  ClipboardList,
+} from "lucide-react";
 
-export default function TelemedicineLanding() {
-  const [isScrolled, setIsScrolled] = useState(false);
+export default function LandingPage() {
   const { user } = useAuth();
   const router = useRouter();
   useEffect(() => {
@@ -31,467 +33,549 @@ export default function TelemedicineLanding() {
     else if (user.role === "doctor") router.push("/dashboard/doctor");
     else if (user.role === "admin") router.push("/dashboard/admin");
   }, [user]);
+  const pathname = usePathname();
+
+  const navLinks = [
+    { name: "Home", href: "/#home" },
+    { name: "Services", href: "/#services" },
+    { name: "Consultation", href: "/#consultation" },
+    { name: "Best Doctors", href: "/#doctors" },
+    { name: "About Us", href: "/#about-us" },
+  ];
+
+  const [doctors, setDoctors] = useState([]);
+  const [loadingDoctors, setLoadingDoctors] = useState(true);
+
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
+    const fetchDoctors = async () => {
+      try {
+        const res = await fetch("/api/landing");
+        const data = await res.json();
+        setDoctors(data);
+      } catch (err) {
+        console.error("Failed to load doctors:", err);
+      } finally {
+        setLoadingDoctors(false);
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    fetchDoctors();
   }, []);
+
+  const testimonials = [
+    {
+      quote:
+        "I was skeptical about telemedicine at first, but Telecure changed my mind. The doctors are knowledgeable, caring, and take their time with each consultation.",
+      name: "Robert Thompson",
+      since: "Patient since 2024",
+      avatar: "/placeholder.svg?height=60&width=60",
+    },
+    {
+      quote:
+        "As a busy mom of three, finding time to visit a doctor was always challenging. Telecure allows me to get quality healthcare for our family without disrupting our schedules.",
+      name: "Jennifer Adams",
+      since: "Patient since 2024",
+      avatar: "/placeholder.svg?height=60&width=60",
+    },
+    {
+      quote:
+        "The voice navigation feature is a game-changer. As someone with limited mobility, being able to control the app with my voice makes healthcare truly accessible.",
+      name: "David Martinez",
+      since: "Patient since 2025",
+      avatar: "/placeholder.svg?height=60&width=60",
+    },
+  ];
+
   return (
-    <div className="min-h-screen pt-[80px] bg-white">
-      <div
-        className={`fixed top-0 w-screen h-[80px] bg-white z-50 transition-shadow ${
-          isScrolled ? "shadow-md" : ""
-        }`}
-      >
-        <div className="container h-full">
-          <div className="flex items-center justify-between h-full">
-            <Link href="/">
-              <Image
-                src="/logos/default.png"
-                alt="Logo"
-                height={80}
-                width={180}
-              />
-            </Link>
-            <ul className="flex items-center gap-2 text-background text-[18px]">
-              <li>
-                <Link href="/" className={buttonVariants({ variant: "link" })}>
-                  Home
-                </Link>
-              </li>
-
-              <>
-                <li>
-                  <Link
-                    href="/find"
-                    className={buttonVariants({ variant: "link" })}
-                  >
-                    Services
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/find"
-                    className={buttonVariants({ variant: "link" })}
-                  >
-                    Consultation
-                  </Link>
-                </li>{" "}
-                <li>
-                  <Link
-                    href="/find"
-                    className={buttonVariants({ variant: "link" })}
-                  >
-                    About Us
-                  </Link>
-                </li>
-              </>
-            </ul>
-
-            <div className="flex gap-1 items-center">
-              <Link href="/auth/login">
-                <Button
-                  size="lg"
-                  className="hover:cursor-pointer"
-                  variant="ghost"
-                >
-                  Sign in
-                </Button>
+    <div className="flex min-h-screen flex-col">
+      {/* Header Section */}
+      <header className="fixed top-0 z-50 w-full bg-white shadow-sm">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
+          <Image src="/logos/default.png" height={80} width={200} />
+          <nav className="hidden space-x-6 md:flex !">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className={cn(
+                  "text-base font-medium text-gray-600 transition-colors hover:text-gray-900",
+                  pathname === link.href.split("#")[0] &&
+                    link.href.includes("#home")
+                    ? "text-gray-900"
+                    : pathname.includes(link.href.split("#")[1]) &&
+                      link.href.includes("#")
+                    ? "text-gray-900"
+                    : ""
+                )}
+              >
+                {link.name}
               </Link>
-              <Link href="/auth/register">
-                <Button size="lg" className="hover:cursor-pointer">
-                  Get Started
-                </Button>
-              </Link>
-            </div>
+            ))}
+          </nav>
+          <div className="flex gap-1 items-center">
+            <Button
+              variant="ghost"
+              onClick={() => {
+                router.push("/auth/login");
+              }}
+            >
+              Sign In
+            </Button>
+            <Button
+              onClick={() => {
+                router.push("/auth/register");
+              }}
+            >
+              Get Started
+            </Button>
           </div>
         </div>
-      </div>
-      {/* Hero Section */}
-      <section className="py-20  bg-gradient-to-br from-blue-50 to-white">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="text-5xl font-bold text-gray-900 mb-6">
-                Healthcare at Your{" "}
-                <span className="text-primary">Fingertips</span>
+      </header>
+
+      <main className="flex-1">
+        {/* Hero Section */}
+        <section
+          id="home"
+          className="flex min-h-screen items-center bg-gray-50  pt-24 md:py-32"
+        >
+          <div className="container mx-auto grid items-center gap-8 px-4 md:grid-cols-2 md:px-6 lg:gap-12">
+            <div className="space-y-6">
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+                Healthcare at your fingertips
               </h1>
-              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                Experience the future of medicine with AI-powered diagnosis,
-                voice navigation, and instant access to qualified doctors. Your
-                health, simplified.
+              <p className="max-w-[600px] text-lg text-gray-600 md:text-xl">
+                Experience the future of healthcare with Telecure&apos;s virtual
+                consultations, AI-powered diagnostics, and 24/7 medical support
+                from the comfort of your home.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg">
-                  <Users className="w-5 h-5 mr-2" />
+              <div className="flex flex-col gap-4 sm:flex-row">
+                <Button
+                  className="px-8 py-3 text-lg"
+                  onClick={() => {
+                    router.push("/auth/register");
+                  }}
+                >
                   Get Started
                 </Button>
-                <Button size="lg" variant="outline">
-                  <Phone className="w-5 h-5 mr-2" />
+                <Button
+                  variant="outline"
+                  className="px-8 py-3 text-lg bg-transparent"
+                >
                   Book Consultation
                 </Button>
               </div>
             </div>
-            <div className="relative h-[500px] w-full ">
+            <div className="relative h-[400px] w-full overflow-hidden rounded-lg bg-gray-200 ">
               <Image
                 src="/UI/banner.png"
-                className="rounded-[10px]"
+                layout="fill"
+                objectFit="cover"
                 alt="Banner"
-                fill
+                className="rounded-lg"
               />
+              <div className="absolute inset-0 flex items-center justify-center text-gray-500">
+                Telemedicine Platform Illustration
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Advanced Healthcare Features */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Advanced Healthcare Features
-            </h2>
-            <p className="text-xl text-primary">
-              Cutting-edge technology meets compassionate care
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Mic className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Voice Navigation</h3>
-                <p className="text-gray-600">
-                  Navigate effortlessly through our platform using simple voice
-                  commands
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Brain className="w-8 h-8 text-green-600" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">
-                  AI Disease Detection
-                </h3>
-                <p className="text-gray-600">
-                  Advanced AI algorithms provide preliminary diagnosis and
-                  health insights
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <UserCheck className="w-8 h-8 text-yellow-600" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">
-                  Doctor Recommendations
-                </h3>
-                <p className="text-gray-600">
-                  Get matched with the perfect specialist based on your specific
-                  needs
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Clock className="w-8 h-8 text-purple-600" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">
-                  24/7 Healthcare Access
-                </h3>
-                <p className="text-gray-600">
-                  Round-the-clock medical support whenever and wherever you need
-                  it
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              How It Works
-            </h2>
-            <p className="text-xl text-primary">
-              Simple steps to better health
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-12">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-white text-2xl font-bold">1</span>
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">
-                Speak Your Symptoms
-              </h3>
-              <p className="text-gray-600">
-                Use voice commands or type to describe your health concerns
+        {/* Services Section */}
+        <section id="services" className="bg-white py-20 md:py-32">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="mb-12 text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                Our Services
+              </h2>
+              <p className="mt-4 text-lg text-gray-600">
+                Discover how Telecure is revolutionizing healthcare with
+                cutting-edge technology and patient-centered solutions.
               </p>
             </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-white text-2xl font-bold">2</span>
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">Get AI Diagnosis</h3>
-              <p className="text-gray-600">
-                Our AI analyzes your symptoms and provides preliminary health
-                insights
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-yellow-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-white text-2xl font-bold">3</span>
-              </div>
-              <h3 className="text-2xl font-semibold mb-4">Consult Doctor</h3>
-              <p className="text-gray-600">
-                Connect instantly with qualified doctors for professional care
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Meet Our Doctors */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Meet Our Doctors
-            </h2>
-            <p className="text-xl text-primary">
-              Qualified professionals ready to help
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <Avatar className="w-20 h-20 mx-auto mb-4">
-                  <AvatarImage src="/placeholder.svg?height=80&width=80" />
-                  <AvatarFallback>SJ</AvatarFallback>
-                </Avatar>
-                <h3 className="text-xl font-semibold mb-2">
-                  Dr. Sarah Johnson
-                </h3>
-                <p className="text-primary mb-3">Cardiologist</p>
-                <div className="flex justify-center mb-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4 fill-yellow-400 text-yellow-400"
-                    />
-                  ))}
-                  <span className="ml-2 text-sm text-gray-600">(4.9)</span>
-                </div>
-                <p className="text-sm text-gray-600">15+ years experience</p>
-              </CardContent>
-            </Card>
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <Avatar className="w-20 h-20 mx-auto mb-4">
-                  <AvatarImage src="/placeholder.svg?height=80&width=80" />
-                  <AvatarFallback>MO</AvatarFallback>
-                </Avatar>
-                <h3 className="text-xl font-semibold mb-2">Dr. Michael Chen</h3>
-                <p className="text-primary mb-3">Neurologist</p>
-                <div className="flex justify-center mb-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4 fill-yellow-400 text-yellow-400"
-                    />
-                  ))}
-                  <span className="ml-2 text-sm text-gray-600">(4.8)</span>
-                </div>
-                <p className="text-sm text-gray-600">12+ years experience</p>
-              </CardContent>
-            </Card>
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <Avatar className="w-20 h-20 mx-auto mb-4">
-                  <AvatarImage src="/placeholder.svg?height=80&width=80" />
-                  <AvatarFallback>ED</AvatarFallback>
-                </Avatar>
-                <h3 className="text-xl font-semibold mb-2">Dr. Emily Davis</h3>
-                <p className="text-primary mb-3">Pediatrician</p>
-                <div className="flex justify-center mb-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4 fill-yellow-400 text-yellow-400"
-                    />
-                  ))}
-                  <span className="ml-2 text-sm text-gray-600">(4.9)</span>
-                </div>
-                <p className="text-sm text-gray-600">10+ years experience</p>
-              </CardContent>
-            </Card>
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <Avatar className="w-20 h-20 mx-auto mb-4">
-                  <AvatarImage src="/placeholder.svg?height=80&width=80" />
-                  <AvatarFallback>RW</AvatarFallback>
-                </Avatar>
-                <h3 className="text-xl font-semibold mb-2">
-                  Dr. Robert Wilson
-                </h3>
-                <p className="text-primary mb-3">Dermatologist</p>
-                <div className="flex justify-center mb-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4 fill-yellow-400 text-yellow-400"
-                    />
-                  ))}
-                  <span className="ml-2 text-sm text-gray-600">(4.7)</span>
-                </div>
-                <p className="text-sm text-gray-600">18+ years experience</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              What Our Patients Say
-            </h2>
-            <p className="text-xl text-primary">
-              Real stories from real people
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="p-6 hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <div className="flex mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-5 h-5 fill-yellow-400 text-yellow-400"
-                    />
-                  ))}
-                </div>
-                <p className="text-gray-700 mb-6">
-                  "The AI diagnosis was incredibly accurate and saved me hours
-                  of waiting. The voice navigation made everything so easy to
-                  use."
-                </p>
-                <div className="flex items-center">
-                  <Avatar className="w-12 h-12 mr-4">
-                    <AvatarImage src="/placeholder.svg?height=48&width=48" />
-                    <AvatarFallback>MR</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="font-semibold">Maria Rodriguez</p>
-                    <p className="text-sm text-gray-600">Patient</p>
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+              <Card className="text-center">
+                <CardHeader>
+                  <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                    <Video className="h-6 w-6" />
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="p-6 hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <div className="flex mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-5 h-5 fill-yellow-400 text-yellow-400"
-                    />
-                  ))}
-                </div>
-                <p className="text-gray-700 mb-6">
-                  "Having 24/7 access to healthcare professionals gave me peace
-                  of mind. The doctors are professional and caring."
-                </p>
-                <div className="flex items-center">
-                  <Avatar className="w-12 h-12 mr-4">
-                    <AvatarImage src="/placeholder.svg?height=48&width=48" />
-                    <AvatarFallback>JT</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="font-semibold">James Thompson</p>
-                    <p className="text-sm text-gray-600">Patient</p>
+                  <CardTitle>Virtual Consultations</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    Connect with licensed medical professionals through secure
+                    video calls anytime, anywhere.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="text-center">
+                <CardHeader>
+                  <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                    <Brain className="h-6 w-6" />
                   </div>
+                  <CardTitle>AI Diagnosis</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    Our AI-powered system provides preliminary diagnosis to help
+                    doctors make informed decisions.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="text-center">
+                <CardHeader>
+                  <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                    <Clock className="h-6 w-6" />
+                  </div>
+                  <CardTitle>24/7 Access</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    Healthcare doesn&apos;t sleep. Access medical help whenever
+                    you need it, day or night.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="text-center">
+                <CardHeader>
+                  <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                    <Mic className="h-6 w-6" />
+                  </div>
+                  <CardTitle>Voice Navigation</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    Navigate our platform hands-free with our advanced voice
+                    recognition technology.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* How It Works Section */}
+        <section id="consultation" className="bg-gray-50 py-20 md:py-32">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="mb-12 text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                How It Works
+              </h2>
+              <p className="mt-4 text-lg text-gray-600">
+                Book a consultation in three simple steps and get the care you
+                need without leaving your home.
+              </p>
+            </div>
+            <div className="grid gap-8 md:grid-cols-3">
+              <Card className="text-center">
+                <CardHeader>
+                  <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                    <UserPlus className="h-6 w-6" />
+                  </div>
+                  <CardTitle>Create an Account</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    Sign up and complete your medical profile to help doctors
+                    understand your history.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="text-center">
+                <CardHeader>
+                  <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                    <Calendar className="h-6 w-6" />
+                  </div>
+                  <CardTitle>Book Appointment</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    Choose a specialist and select a convenient time slot for
+                    your virtual consultation.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="text-center">
+                <CardHeader>
+                  <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                    <Video className="h-6 w-6" />
+                  </div>
+                  <CardTitle>Start Consultation</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    Connect with your doctor via our secure platform and receive
+                    personalized care.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Card className="mx-auto mt-16 max-w-3xl p-6 md:p-8">
+              <CardContent className="flex flex-col items-center gap-6 md:flex-row md:items-start">
+                <div className="flex-shrink-0">
+                  <Image
+                    src="/placeholder.svg?height=80&width=80"
+                    alt="Sarah Johnson"
+                    width={80}
+                    height={80}
+                    className="rounded-full"
+                  />
                 </div>
-              </CardContent>
-            </Card>
-            <Card className="p-6 hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <div className="flex mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-5 h-5 fill-yellow-400 text-yellow-400"
-                    />
-                  ))}
-                </div>
-                <p className="text-gray-700 mb-6">
-                  "The doctor recommendations were spot on. I found the perfect
-                  specialist for my condition within minutes."
-                </p>
-                <div className="flex items-center">
-                  <Avatar className="w-12 h-12 mr-4">
-                    <AvatarImage src="/placeholder.svg?height=48&width=48" />
-                    <AvatarFallback>LC</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="font-semibold">Lisa Chen</p>
-                    <p className="text-sm text-gray-600">Patient</p>
+                <div className="text-center md:text-left">
+                  <p className="text-lg italic text-gray-700">
+                    &quot;Telecure has completely changed how I access
+                    healthcare. I was able to consult with a specialist within
+                    hours instead of waiting weeks for an in-person appointment.
+                    The platform is intuitive and the doctors are
+                    excellent.&quot;
+                  </p>
+                  <p className="mt-4 font-semibold text-gray-800">
+                    Sarah Johnson
+                  </p>
+                  <div className="mt-1 flex justify-center md:justify-start">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="h-5 w-5 fill-yellow-400 text-yellow-400"
+                      />
+                    ))}
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-primary to-blue-700 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-4">
-            Ready to Transform Your Healthcare Experience?
-          </h2>
-          <p className="text-xl mb-8 opacity-90">
-            Join thousands of satisfied patients who trust Telecure for their
-            health needs
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              variant="secondary"
-              className="bg-white text-primary hover:bg-gray-100"
-            >
-              <Download className="w-5 h-5 mr-2" />
-              Download App
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-white text-white hover:bg-white hover:text-primary bg-transparent"
-            >
-              <Users className="w-5 h-5 mr-2" />
-              Sign Up Now
-            </Button>
+        {/* Advanced Features Section */}
+        <section id="features" className="bg-white py-20 md:py-32">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="mb-12 text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                Advanced Features
+              </h2>
+              <p className="mt-4 text-lg text-gray-600">
+                Our platform is equipped with cutting-edge technology to provide
+                you with the best telemedicine experience.
+              </p>
+            </div>
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+              <Card>
+                <CardHeader>
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                    <Mic className="h-6 w-6" />
+                  </div>
+                  <CardTitle>Voice-Based Navigation</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    Navigate through our platform using simple voice commands,
+                    making healthcare accessible to everyone, including those
+                    with mobility challenges.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                    <FileText className="h-6 w-6" />
+                  </div>
+                  <CardTitle>Digital Prescriptions</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    Receive prescriptions digitally and have medications
+                    delivered to your doorstep or ready for pickup at your
+                    preferred pharmacy.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                    <Stethoscope className="h-6 w-6" />
+                  </div>
+                  <CardTitle>Doctor Recommendations</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    Our AI system matches you with the most suitable healthcare
+                    professionals based on your symptoms and medical history.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+                    <ClipboardList className="h-6 w-6" />
+                  </div>
+                  <CardTitle>Medical Records</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    Access your complete medical history, test results, and
+                    treatment plans in one secure location.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* Doctors Section */}
+        <section id="doctors" className="bg-gray-50 py-20 md:py-32">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="mb-12 text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                Our Best Doctors
+              </h2>
+              <p className="mt-4 text-lg text-gray-600">
+                Connect with top-rated healthcare professionals who are
+                passionate about providing exceptional care.
+              </p>
+            </div>
+
+            {loadingDoctors ? (
+              <p className="text-center text-gray-500">Loading doctors...</p>
+            ) : (
+              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+                {doctors.map((doctor, index) => (
+                  <Card key={index} className="text-center">
+                    <CardContent className="flex flex-col items-center p-6">
+                      <Image
+                        src={doctor.avatar || "/placeholder.svg"}
+                        alt={doctor.name}
+                        width={100}
+                        height={100}
+                        className="mb-4 rounded-full object-cover"
+                      />
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        {doctor.name}
+                      </h3>
+                      <p className="text-gray-600">{doctor.specialty}</p>
+                      <div className="mt-2 flex">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className="h-4 w-4 fill-yellow-400 text-yellow-400"
+                          />
+                        ))}
+                      </div>
+                      <p className="mt-2 text-sm text-gray-500">
+                        {doctor.experience}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* About Us Section */}
+        <section id="about-us" className="bg-white py-20 md:py-32">
+          <div className="container mx-auto grid items-center gap-8 px-4 md:grid-cols-2 md:px-6 lg:gap-12">
+            <div className="relative h-[300px] w-full overflow-hidden rounded-lg bg-gray-200 md:h-[400px] lg:h-[500px]">
+              <Image
+                src="/bg/about.png"
+                alt="Telecure Team Image"
+                layout="fill"
+                objectFit="cover"
+                className="rounded-lg"
+              />
+              <div className="absolute inset-0 flex items-center justify-center text-gray-500">
+                Telecure Team Image
+              </div>
+            </div>
+            <div className="space-y-6">
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                About Telecure
+              </h2>
+              <p className="text-lg text-gray-600">
+                Founded in 2023, Telecure is on a mission to make healthcare
+                accessible to everyone, everywhere. We believe that quality
+                healthcare is a right, not a privilege.
+              </p>
+              <p className="text-lg text-gray-600">
+                Our team of dedicated healthcare professionals and technology
+                experts work tirelessly to create a platform that connects
+                patients with doctors seamlessly, breaking down geographical
+                barriers and reducing wait times.
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <h3 className="text-3xl font-bold text-gray-900">500+</h3>
+                  <p className="text-gray-600">Doctors</p>
+                </div>
+                <div>
+                  <h3 className="text-3xl font-bold text-gray-900">50,000+</h3>
+                  <p className="text-gray-600">Patients</p>
+                </div>
+                <div>
+                  <h3 className="text-3xl font-bold text-gray-900">30+</h3>
+                  <p className="text-gray-600">Specialties</p>
+                </div>
+                <div>
+                  <h3 className="text-3xl font-bold text-gray-900">4.9/5</h3>
+                  <p className="text-gray-600">Average Rating</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials Section */}
+        <section id="testimonials" className="bg-gray-50 py-20 md:py-32">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="mb-12 text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                What Our Users Say
+              </h2>
+              <p className="mt-4 text-lg text-gray-600">
+                Hear from people who have transformed their healthcare
+                experience with Telecure.
+              </p>
+            </div>
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {testimonials.map((testimonial, index) => (
+                <Card key={index}>
+                  <CardContent className="p-6">
+                    <div className="mb-4 flex">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className="h-5 w-5 fill-yellow-400 text-yellow-400"
+                        />
+                      ))}
+                    </div>
+                    <p className="text-lg italic text-gray-700">
+                      &quot;{testimonial.quote}&quot;
+                    </p>
+                    <div className="mt-6 flex items-center gap-3">
+                      <Image
+                        src={testimonial.avatar || "/placeholder.svg"}
+                        alt={testimonial.name}
+                        width={60}
+                        height={60}
+                        className="rounded-full"
+                      />
+                      <div>
+                        <p className="font-semibold text-gray-800">
+                          {testimonial.name}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          {testimonial.since}
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer Section */}
     </div>
   );
 }
