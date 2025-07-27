@@ -420,11 +420,10 @@ export default function LandingPage() {
               </Card>
             </div>
           </div>
-        </div>
       </section>
       {/* Drop this toward the end or inside hero */}
       {user && <VoiceNavigator />}
-        </section>
+        
 
         {/* Doctors Section */}
         <section id="doctors" className="bg-gray-50 py-20 md:py-32">
