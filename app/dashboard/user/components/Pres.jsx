@@ -47,7 +47,7 @@ const Pres = () => {
             medication,
             investigation,
             createdAt,
-            doctor,
+            doctorName,
           } = prescription;
 
           const formattedDate = new Date(createdAt).toLocaleDateString();
@@ -69,7 +69,7 @@ const Pres = () => {
                       Prescription - {formattedDate}
                     </h3>
                     <p className="text-gray-600">
-                      {doctor?.name || "Dr. Unknown"}
+                      {doctorName || "Dr. Unknown"}
                     </p>
                   </div>
                   <Button size="sm" className="bg-blue-500 hover:bg-blue-600">
