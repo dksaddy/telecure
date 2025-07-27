@@ -46,7 +46,7 @@ Symptoms: ${symptoms}
         method: "POST",
         headers: {
           Authorization:
-            "Bearer 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",
+            "Bearer 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",
           "Content-Type": "application/json",
           "HTTP-Referer": "http://localhost:3000", // Update for production
           "X-Title": "Symptom Checker",
