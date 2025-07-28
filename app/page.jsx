@@ -93,7 +93,7 @@ export default function LandingPage() {
       {/* Header Section */}
       <header className="fixed top-0 z-50 w-full bg-white shadow-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-          <Image src="/logos/default.png" height={80} width={200} />
+          <Image src="/logos/default.png" alt="Logo" height={80} width={200} />
           <nav className="hidden space-x-6 md:flex !">
             {navLinks.map((link) => (
               <Link
@@ -452,7 +452,7 @@ export default function LandingPage() {
                         alt={doctor.name}
                         width={100}
                         height={100}
-                        className="mb-4 rounded-full object-cover"
+                        className="mb-4 h-25 w-25 rounded-full object-cover"
                       />
                       <h3 className="text-lg font-semibold text-gray-900">
                         {doctor.name}
