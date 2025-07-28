@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import {
   Calendar,
@@ -57,8 +58,7 @@ export default function AppointmentDashboard() {
     if (appId) fetchAppointment();
   }, [appId]);
 
-  console.log(data);
-  if (loading) return <p className="p-4">Loading appointment details...</p>;
+  if (loading) return <CircularProgress />;
   if (error) return <p className="p-4 text-red-500">Error: {error}</p>;
   if (!data) return <p className="p-4">No appointment found.</p>;
   const deleteAppointment = async () => {

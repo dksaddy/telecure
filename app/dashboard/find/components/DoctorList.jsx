@@ -4,6 +4,7 @@ import Doctor from "./Doctor";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import useFilterStore from "@/app/store/useFilterStore";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const fetchDoctors = async ({ queryKey }) => {
   const [_key, filters] = queryKey;
@@ -62,11 +63,17 @@ const DoctorList = () => {
     queryFn: fetchDoctors,
   });
 
-  if (isLoading) return <p>Loading doctors...</p>;
+  if (isLoading)
+    return (
+      <>
+        {" "}
+        <CircularProgress />
+      </>
+    );
   if (error) return <p>Error fetching doctors: {error.message}</p>;
 
   return (
-    <div className="mt-5">
+    <div>
       <h2 className="text-2xl text-gray-500 mb-4">Doctor Lists</h2>
       <div className="grid grid-cols-4 gap-4">
         {data?.map((doctor, index) => (

@@ -116,7 +116,7 @@ export default function TelemedicinePortal() {
                       formData.append("profileImage", selectedFile);
                     }
 
-                    const res = await fetch(`/api/user/${user.id}`, {
+                    const res = await fetch(`/api/doctor/${user.id}`, {
                       method: "PATCH",
                       body: formData,
                     });

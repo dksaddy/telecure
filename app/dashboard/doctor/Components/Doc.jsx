@@ -44,7 +44,7 @@ const Profile = () => {
             <Button
               className="w-full mt-6 bg-blue-500 hover:bg-blue-600"
               onClick={() => {
-                router.push("/dashboard/user");
+                router.push("/dashboard/doctor");
               }}
             >
               Dashboard
@@ -52,7 +52,7 @@ const Profile = () => {
             <Button
               className="w-full bg-blue-500 hover:bg-blue-600"
               onClick={() => {
-                router.push("/dashboard/user/settings");
+                router.push("/dashboard/doctor/settings");
               }}
             >
               Edit Profile
@@ -61,20 +61,10 @@ const Profile = () => {
             <Button
               className="w-full  bg-blue-500 hover:bg-blue-600"
               onClick={() => {
-                router.push("/dashboard/user/appointment");
+                router.push("/dashboard/doctor/appointments");
               }}
             >
               My Appointments
-            </Button>
-
-            <Button
-              variant="outline"
-              onClick={() => {
-                router.push("/dashboard/user/pres");
-              }}
-              className="w-full bg-transparent"
-            >
-              View Prescriptions
             </Button>
 
             <Button variant="destructive" onClick={logout} className="w-full">

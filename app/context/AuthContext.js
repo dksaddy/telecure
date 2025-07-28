@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   // Load user from cookie on first load
   useEffect(() => {
     const storedUser = Cookies.get("user");
-    console.log(storedUser);
+
     if (storedUser && storedUser !== "undefined") {
       setUser(JSON.parse(storedUser));
     }

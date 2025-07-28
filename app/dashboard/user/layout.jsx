@@ -11,7 +11,7 @@ export default function page({ children }) {
     <>
       <Header />
       <div className="container">
-        <div className="flex gap-6 py-6">
+        <div className="flex gap-3 py-6">
           <div className="w-80 space-y-6">
             <Profile />
           </div>

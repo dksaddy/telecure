@@ -5,8 +5,9 @@ import { IconButton, Button } from "@mui/material";
 import { Mic, X, Search } from "lucide-react";
 import Backdrop from "@mui/material/Backdrop";
 import SoundVisualizer from "@/app/global_components/SoundVisualizer";
+import useFilterStore from "@/app/store/useFilterStore";
 
-export default function SpeechToText({ setSelectedCategory }) {
+export default function SpeechToText() {
   const [finalText, setFinalText] = useState("");
   const [isListening, setIsListening] = useState(false);
   const [recognition, setRecognition] = useState(null);
@@ -14,7 +15,7 @@ export default function SpeechToText({ setSelectedCategory }) {
   const [interimTranscript, setInterimTranscript] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [apiResponse, setApiResponse] = useState(null);
-
+  const { setSelectedCategory } = useFilterStore();
   useEffect(() => {
     if (typeof window !== "undefined") {
       const SpeechRecognition =
@@ -143,7 +144,7 @@ export default function SpeechToText({ setSelectedCategory }) {
             </div>
           </div>
         </Backdrop>
-        <div className="col-span-2">
+        <div className="col-span-8">
           <textarea
             value={finalText + interimTranscript}
             onChange={handleTextChange}
@@ -152,26 +153,19 @@ export default function SpeechToText({ setSelectedCategory }) {
             rows={4}
           />
         </div>
-        <div className="w-full p-5 rounded-[10px] flex items-center flex-col justify-center  bg-blue-100">
+        <div className="w-full p-5 col-span-4 rounded-[10px] flex items-center flex-col justify-center  bg-blue-100">
           <IconButton size="large" onClick={toggleListening}>
             <Mic size={36} />
           </IconButton>
         </div>
-        <div className="bg-primary rounded-[10px] flex items-center justify-center">
-          {/* <button
-            onClick={handleFindDoctor}
-            disabled={isLoading}
-            className="px-4 py-2 rounded text-white bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 flex-1"
-          >
-            {isLoading ? "Loading..." : "Find Doctor"}
-          </button> */}
+        <div className="bg-primary col-span-4 rounded-[10px] flex items-center justify-center">
           <IconButton
             onClick={handleFindDoctor}
             disabled={isLoading}
             sx={{
               color: "white",
               "&:hover": {
-                backgroundColor: "rgba(255, 255, 255, 0.1)", // optional hover effect
+                backgroundColor: "rgba(255, 255, 255, 0.1)",
               },
               "& .MuiTouchRipple-root .MuiTouchRipple-rippleVisible": {
                 color: "white",
@@ -181,20 +175,13 @@ export default function SpeechToText({ setSelectedCategory }) {
             <Search size={36} color="white" />
           </IconButton>
         </div>
-        {/* <div>
-          {isListening && interimTranscript && (
-            <p className="text-gray-500 mt-1">
-              লাইভ ট্রান্সক্রিপশন: {interimTranscript}
-            </p>
-          )}
-        </div> */}
+
         {apiResponse && (
           <div className=" p-3 bg-blue-50 col-span-4 h-full rounded-lg">
             <h3 className="font-bold text-blue-800">
               পরামর্শক বিশেষজ্ঞ: {apiResponse.specialization}
             </h3>
 
-            {/* Show Possible Diseases */}
             {apiResponse.possibleDiseases?.length > 0 && (
               <div className="mt-2">
                 <h4 className="font-semibold text-gray-700 mb-1">
