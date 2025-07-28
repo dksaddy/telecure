@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye } from "lucide-react";
 import { useAuth } from "@/app/context/AuthContext";
 import { id } from "date-fns/locale";
-
+import CircularProgress from "@mui/material/CircularProgress";
 const Pres = () => {
   const { user } = useAuth();
   const [prescriptions, setPrescriptions] = useState([]);
@@ -33,7 +33,12 @@ const Pres = () => {
     }
   }, [user]);
 
-  if (loading) return <p>Loading prescriptions...</p>;
+  if (loading)
+    return (
+      <>
+        <CircularProgress />
+      </>
+    );
 
   return (
     <Card>

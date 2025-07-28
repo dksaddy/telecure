@@ -193,11 +193,14 @@ export default function MedicalPrescription() {
                 <AccordionItem key={index} value={`item-${index}`}>
                   <AccordionTrigger className="flex items-center gap-3 py-4 text-base font-medium text-gray-900 hover:no-underline">
                     <Pill className="w-6 h-6 text-gray-700" />
-                    {med.name}
-                    <span className="text-sm text-gray-600">
-                      {med.fullData.type} • {med.fullData.strength} •{" "}
-                      {med.fullData.dosageForm}
-                    </span>
+
+                    <div className="w-full">
+                      {med.name}
+                      <span className="text-sm text-gray-600">
+                        {med.fullData.type} • {med.fullData.strength} •{" "}
+                        {med.fullData.dosageForm}
+                      </span>
+                    </div>
                   </AccordionTrigger>
                   <AccordionContent className="pt-4 pb-2">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
@@ -256,17 +259,6 @@ export default function MedicalPrescription() {
         </Card>
 
         {/* Additional Notes */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg font-semibold">
-              <Syringe className="w-5 h-5 text-gray-700" />
-              Additional Notes
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-sm text-gray-700">
-            {data.notes}
-          </CardContent>
-        </Card>
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4">
@@ -276,17 +268,6 @@ export default function MedicalPrescription() {
           >
             <Printer className="w-4 h-4" />
             Print Prescription
-          </Button>
-          <Button
-            variant="outline"
-            className="flex items-center gap-2 bg-transparent"
-          >
-            <Download className="w-4 h-4" />
-            Download PDF
-          </Button>
-          <Button className="flex items-center gap-2">
-            <RefreshCw className="w-4 h-4" />
-            Request Refill
           </Button>
         </div>
       </div>

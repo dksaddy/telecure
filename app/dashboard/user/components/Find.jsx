@@ -75,7 +75,7 @@ const Find = () => {
 
             {/* Action buttons */}
             <div className="space-y-3">
-              <Link href="/find" className="block">
+              <Link href="/dashboard/find" className="block">
                 <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white">
                   <Search className="w-4 h-4 mr-2" />
                   Find Doctor

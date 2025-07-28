@@ -9,15 +9,20 @@ import "./doctor.css";
 const page = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   return (
-    <main className="pt-[80px]">
-      <div className="container mx-auto">
-        <h4 className="text-lg my-5 text-gray-500 font-medium">
-          Home Page / <span className="text-primary">Find a doctor</span>
-        </h4>
+    <main>
+      <div className="mx-auto block w-[400px]">
+        <h2 className="text-5xl my-3 text-center pb-2  border-b-2 border-primary">
+          Find a Doctor
+        </h2>
+      </div>
 
+      <div className="container mx-auto">
         <div className="grid grid-cols-12 gap-6">
           {/* Filters Sidebar */}
           <div id="Filters" className="col-span-12 md:col-span-3">
+            <div>
+              <Voice />
+            </div>
             <div className=" h-full w-full min-h-[300px] py-4">
               <Filter />
             </div>
@@ -26,9 +31,6 @@ const page = () => {
           {/* Main Content */}
           <div className="col-span-12 md:col-span-9 space-y-6">
             {/* Voice Component */}
-            <div>
-              <Voice />
-            </div>
 
             {/* Doctors List */}
             <div id="doctors">

@@ -7,6 +7,7 @@ import { Video, CheckCircle } from "lucide-react";
 import { useAuth } from "@/app/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Appointments = () => {
   const router = useRouter();
@@ -35,7 +36,7 @@ const Appointments = () => {
     fetchAppointments();
   }, []);
 
-  if (loading) return <p>Loading appointments...</p>;
+  if (loading) return <CircularProgress />;
 
   // 🧠 Filter logic
   const filteredAppointments = appointments.filter((appt) => {
