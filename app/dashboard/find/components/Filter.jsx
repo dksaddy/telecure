@@ -43,7 +43,7 @@ const Filter = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/Categories");
+        const res = await fetch("/api/Categories");
         const data = await res.json();
         setCategories(data); // Set globally
       } catch (err) {
