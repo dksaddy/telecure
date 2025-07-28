@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import CircularProgress from "@mui/material/CircularProgress";
 import {
   Video,
   Brain,
@@ -438,7 +439,9 @@ export default function LandingPage() {
             </div>
 
             {loadingDoctors ? (
-              <p className="text-center text-gray-500">Loading doctors...</p>
+              <p className="text-center text-gray-500">
+                <CircularProgress />
+              </p>
             ) : (
               <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
                 {doctors.map((doctor, index) => (

@@ -26,7 +26,7 @@ const Doctor = ({
           src={profileImage}
           width={100}
           height={100}
-          className="rounded-full border-4 border-white shadow-md"
+          className="rounded-full h-25 w-25 border-4 border-white shadow-md"
           alt={`${firstName} ${lastName} profile image`}
         />
       </div>

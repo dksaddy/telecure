@@ -1,7 +1,11 @@
 import React from "react";
-
+import CircularProgress from "@mui/material/CircularProgress";
 const loading = () => {
-  return <div>Loading NOW Broo</div>;
+  return (
+    <>
+      <CircularProgress />
+    </>
+  );
 };
 
 export default loading;
